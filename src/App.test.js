@@ -25,7 +25,8 @@ test('hit position on a ship, sink ship value',()=>{
   expect(s3.isSunk).toBeTruthy()
 })
 
-test('ship name', ()=>{
+test('ship name assignment', ()=>{
   const s3 = ship(3, "name")
   expect(s3.name).toBe("name")
 })
+
