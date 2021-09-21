@@ -6,7 +6,20 @@
   height: 40vmin;
   pointer-events: none;
 }
+.board{
+  width: 300px; 
+  height: 300px; 
+  display: flex;
+  flex-wrap: wrap;
+  
 
+}
+.cell{
+  width: 30px;
+  height: 30px; 
+  box-sizing: border-box;
+  border: 1px solid black;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
