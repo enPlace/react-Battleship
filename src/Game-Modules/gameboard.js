@@ -22,6 +22,16 @@ const gameboard = () => {
     s4: ship(4, "s4"),
     s5: ship(5, "s5"),
   };
+  const getShips = () => ships;
+
+  const isGameOver = () => {
+    const keys = Object.keys(ships);
+    let count = 0;
+    keys.forEach((key) => {
+      if (ships[key].isSunk) count++;
+    });
+    return count === keys.length ? true : false;
+  };
 
   const placeShipHorizontally = (row, col, shipName) => {
     const ship = ships[shipName];
@@ -91,34 +101,30 @@ const gameboard = () => {
   const fire = (row, col) => {
     let target = board[row][col];
     if (!target) {
+      //target is 0 then miss
       board[row][col] = 1;
       return "MISS";
     }
     if (target === 1 || target === "X")
+      //target is 1 or X then a hit or miss has been registered here
       throw new Error("you already tried this spot");
     if (Array.isArray(target)) {
+      //Array that points to a ship object, its a hit.
       board[row][col] = "X";
       ships[target[0]].hitPosition(target[1]);
-
       return ships[target[0]].isSunk() ? "SUNK" : ships[target[0]].shipArray;
     }
   };
+
   return {
     getBoard,
     placeShipHorizontally,
     placeShipVertically,
     placeShipsRandomly,
     fire,
+    getShips,
+    isGameOver,
   };
 };
 
 export default gameboard;
-
-/* 
-next:
-    -fire at a particular coordinate
-    -if coord has 0, change 0 to X
-    -if coord has X, throw error
-    -if coord has a ship array, 
-        pass the ship name and info to the function that hits a ship
-     */

@@ -5,6 +5,7 @@ function App() {
 
   const game = gameboard();
   game.placeShipsRandomly()
+  console.log(game.getShips())
 
   return (
     <div className="App">
