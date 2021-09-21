@@ -22,3 +22,5 @@ test("ship array creation", () => {
     const s3 = ship(3, "name")
     expect(s3.name).toBe("name")
   })
+
+  
