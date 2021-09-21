@@ -1,4 +1,13 @@
-const Cell = ({ item, row, col, setBoard, game }) => {
+const Cell = ({
+  item,
+  row,
+  col,
+  setBoard,
+  game,
+  name,
+  turn,
+  handleChangeTurn,
+}) => {
   if (item === 0) {
     return (
       <div
@@ -7,8 +16,15 @@ const Cell = ({ item, row, col, setBoard, game }) => {
         data-col={col - 1}
         className="cell"
         onClick={(e) => {
-          console.log(game.fire(e.target.dataset.row, e.target.dataset.col));
-          setBoard([...game.getBoard()]);
+          if (name !== turn) {
+            const fireResponse = game.fire(
+              e.target.dataset.row,
+              e.target.dataset.col
+            );
+            console.log(fireResponse);
+            if (fireResponse === "MISS") handleChangeTurn();
+            setBoard([...game.getBoard()]);
+          }
         }}
       ></div>
     );
@@ -37,8 +53,15 @@ const Cell = ({ item, row, col, setBoard, game }) => {
         data-col={col - 1}
         className="cell"
         onClick={(e) => {
-          console.log(game.fire(e.target.dataset.row, e.target.dataset.col));
-          setBoard([...game.getBoard()]);
+          if (name !== turn) {
+            const fireResponse = game.fire(
+              e.target.dataset.row,
+              e.target.dataset.col
+            );
+            console.log(fireResponse);
+            if (fireResponse === "MISS") handleChangeTurn();
+            setBoard([...game.getBoard()]);
+          }
         }}
       >
         {item[0]}

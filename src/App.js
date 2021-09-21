@@ -5,12 +5,24 @@ import gameboard from "./Game-Modules/gameboard";
 
 const p1Game = gameboard();
 p1Game.placeShipsRandomly();
+
+const p2Game = gameboard();
+p2Game.placeShipsRandomly();
+
 function App() {
   const [p1Board, setP1Board] = useState(p1Game.getBoard());
+  const [p2Board, setP2Board] = useState(p2Game.getBoard());
+  const [turn, setTurn] = useState ("p1")
+  
+  const handleChangeTurn=()=> turn === "p1" ? setTurn("p2") : setTurn("p1")
+
+
+
   let row = 0;
   return (
-    <div className="App">
-      <div className="board">
+    <div className="App" >
+      {console.log(turn)}
+      <div className="board"  style = {{marginRight: "20px"}}>
         {p1Board.map((array) => {
           let col = 0;
           row++;
@@ -24,11 +36,42 @@ function App() {
                 col={col}
                 game={p1Game}
                 setBoard = {setP1Board}
+                name = "p1"
+                turn = {turn}
+                handleChangeTurn = {handleChangeTurn}
+                
               />
             );
           });
         })}
+        <h1>Player 1</h1>
       </div>
+
+      <div className="board" >
+        {p2Board.map((array) => {
+          let col = 0;
+          row++;
+          return array.map((item) => {
+            col++;
+            return (
+              <Cell
+                key={`${row - 10}, ${col - 1}}`}
+                item={item}
+                row={row-10}
+                col={col}
+                game={p2Game}
+                setBoard = {setP2Board}
+                name = "p2"
+                turn = {turn}
+                handleChangeTurn = {handleChangeTurn}
+               
+              />
+            );
+          });
+        })}
+        <h1>Player 2</h1>
+      </div>
+      
     </div>
   );
 }
