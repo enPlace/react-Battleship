@@ -28,7 +28,7 @@ const gameboard = () => {
     const keys = Object.keys(ships);
     let count = 0;
     keys.forEach((key) => {
-      if (ships[key].isSunk) count++;
+      if (ships[key].isSunk()) count++;
     });
     return count === keys.length ? true : false;
   };
@@ -105,13 +105,15 @@ const gameboard = () => {
       board[row][col] = 1;
       return "MISS";
     }
-    if (target === 1 || target === "X")
+    if ((Array.isArray(target) && target[1] === "X") || target === 1)
       //target is 1 or X then a hit or miss has been registered here
       throw new Error("you already tried this spot");
     if (Array.isArray(target)) {
-      //Array that points to a ship object, its a hit.
-      board[row][col] = "X";
+      //Array that points to a ship object, its a hit. Change target[1] from index reference to "X"
+      //to symbolize a hit
+
       ships[target[0]].hitPosition(target[1]);
+      board[row][col][1] = "X";
       return ships[target[0]].isSunk() ? "SUNK" : ships[target[0]].shipArray;
     }
   };

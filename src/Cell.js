@@ -4,7 +4,7 @@ const Cell = ({
   col,
   setBoard,
   game,
-  name,
+  opponent,
   turn,
   handleChangeTurn,
 }) => {
@@ -16,14 +16,16 @@ const Cell = ({
         data-col={col - 1}
         className="cell"
         onClick={(e) => {
-          if (name !== turn) {
+          if (opponent === turn) {
             const fireResponse = game.fire(
               e.target.dataset.row,
               e.target.dataset.col
             );
             console.log(fireResponse);
+        
             if (fireResponse === "MISS") handleChangeTurn();
             setBoard([...game.getBoard()]);
+
           }
         }}
       ></div>
@@ -34,37 +36,37 @@ const Cell = ({
         x
       </div>
     );
-  } else if (item === "X") {
-    return (
-      <div
-        style={{ backgroundColor: "red" }}
-        data-row={row - 1}
-        data-col={col - 1}
-        className="cell"
-      >
-        X
-      </div>
-    );
-  } else if (Array.isArray(item)) {
-    return (
+  }else if (Array.isArray(item)) {
+    const sunkStatus = game.getShips()[item[0]].isSunk() ? "SUNK" : "FLOATING"
+    return item[1] !=="X" ? (
       <div
         key={`${row}, ${col}}`}
         data-row={row - 1}
         data-col={col - 1}
-        className="cell"
+        className={`cell ${item[0]} ${sunkStatus}`}
         onClick={(e) => {
-          if (name !== turn) {
+          if (opponent === turn) {
             const fireResponse = game.fire(
               e.target.dataset.row,
               e.target.dataset.col
             );
             console.log(fireResponse);
             if (fireResponse === "MISS") handleChangeTurn();
+            if(game.isGameOver()) handleChangeTurn("GAME OVER")
             setBoard([...game.getBoard()]);
           }
         }}
       >
         {item[0]}
+      </div>
+    ): (
+      <div
+        style={{ backgroundColor: "red" }}
+        data-row={row - 1}
+        data-col={col - 1}
+        className={`cell ${item[0]} ${sunkStatus}`}
+      >
+        X
       </div>
     );
   }
