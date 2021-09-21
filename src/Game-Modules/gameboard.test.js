@@ -15,6 +15,7 @@ test("empty gameboard creation", () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+  expect(newGame.getBoard()[0][0]).toBeFalsy();
 });
 
 test("place a ship horizontally", () => {
@@ -63,3 +64,13 @@ test("place a ship vertically", () => {
     "ship cannot be placed here"
   );
 });
+test("fire at a position", () => {
+  newGame.fire(3, 0); //miss
+  expect(newGame.getBoard()[3][0]).toBe(1);
+  expect(() => newGame.fire(3, 0)).toThrow("you already tried this spot");
+  expect(newGame.fire(0,0)).toStrictEqual([false, true]) //hit
+  expect(newGame.getBoard()[0][0]).toBe("X")
+  expect(()=>newGame.fire(0,0)).toThrow("you already tried this spot")
+  expect(newGame.fire(0,1)).toBe("SUNK") // sink a ship
+  expect(newGame.getBoard()[0][1]).toBe("X")
+  });

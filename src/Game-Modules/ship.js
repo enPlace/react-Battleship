@@ -17,7 +17,10 @@ const ship = (num, shipName) => {
   const hitPosition = (pos) => {
     shipArray[pos] = false;
   };
-  return { shipArray, name, hitPosition, isSunk };
+  const getShipArray = () =>{
+    return shipArray
+  }
+  return { shipArray, name, hitPosition, isSunk, getShipArray };
 };
 
 export default ship;

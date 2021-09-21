@@ -88,11 +88,27 @@ const gameboard = () => {
     keys.forEach((shipName) => placeShipRandomly(shipName));
   };
 
+  const fire = (row, col) => {
+    let target = board[row][col];
+    if (!target) {
+      board[row][col] = 1;
+      return "MISS";
+    }
+    if (target === 1 || target === "X")
+      throw new Error("you already tried this spot");
+    if (Array.isArray(target)) {
+      board[row][col] = "X";
+      ships[target[0]].hitPosition(target[1]);
+
+      return ships[target[0]].isSunk() ? "SUNK" : ships[target[0]].shipArray;
+    }
+  };
   return {
     getBoard,
     placeShipHorizontally,
     placeShipVertically,
     placeShipsRandomly,
+    fire,
   };
 };
 

@@ -4,13 +4,14 @@ import ship from "./Game-Modules/ship";
 function App() {
 
   const game = gameboard();
+  game.placeShipsRandomly()
 
   return (
     <div className="App">
       <div className="board">
         {game.getBoard().map((array) => {
           return array.map((item) => {
-            return item === 0 ? (
+            return item === 1 ? (
               <div className="cell"></div>
             ) : (
               <div className="cell">{item[0]}</div>
