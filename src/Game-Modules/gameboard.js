@@ -100,6 +100,7 @@ const gameboard = () => {
 
   const fire = (row, col) => {
     let target = board[row][col];
+
     if (!target) {
       //target is 0 then miss
       board[row][col] = 1;
@@ -111,7 +112,6 @@ const gameboard = () => {
     if (Array.isArray(target)) {
       //Array that points to a ship object, its a hit. Change target[1] from index reference to "X"
       //to symbolize a hit
-
       ships[target[0]].hitPosition(target[1]);
       board[row][col][1] = "X";
       return ships[target[0]].isSunk() ? "SUNK" : ships[target[0]].shipArray;

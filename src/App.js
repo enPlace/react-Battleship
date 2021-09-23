@@ -1,7 +1,9 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cell from "./Cell";
+
 import gameboard from "./Game-Modules/gameboard";
+import computerPlayer from "./Game-Modules/computerPlayer";
 
 const p1Game = gameboard();
 p1Game.placeShipsRandomly();
@@ -19,10 +21,24 @@ function App() {
     else return turn === "p1" ? setTurn("p2") : setTurn("p1");
   };
 
+  const handleBot = () => {
+    if (turn === "p2") {
+      const botMove = computerPlayer(p1Game);
+
+      if (botMove["res"] === "MISS") {
+        handleChangeTurn();
+      } else if (Array.isArray(botMove["res"]) || botMove["res"] === "SUNK") {
+        setP1Board([...botMove.board]);
+      }
+    }
+  };
+  useEffect(() => {
+    setTimeout(handleBot, 700);
+  });
+
   let row = 0;
   return (
     <div className="App">
-      {console.log(turn)}
       <div className="board" style={{ marginRight: "20px" }}>
         {p1Board.map((array) => {
           let col = 0;

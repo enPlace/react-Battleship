@@ -66,11 +66,14 @@ test("place a ship vertically", () => {
 });
 test("fire at a position", () => {
   newGame.fire(3, 0); //miss
+
   expect(newGame.getBoard()[3][0]).toBe(1);
   expect(() => newGame.fire(3, 0)).toThrow("you already tried this spot");
-  expect(newGame.fire(0,0)).toStrictEqual([false, true]) //hit
-  expect(newGame.getBoard()[0][0][1]).toBe("X")
-  expect(()=>newGame.fire(0,0)).toThrow("you already tried this spot")
-  expect(newGame.fire(0,1)).toBe("SUNK") // sink a ship
-  expect(newGame.getBoard()[0][1][1]).toBe("X")
-  });
+  expect(() => newGame.fire(-1, 0)).toThrow();
+
+  expect(newGame.fire(0, 0)).toStrictEqual([false, true]); //hit
+  expect(newGame.getBoard()[0][0][1]).toBe("X");
+
+  expect(newGame.fire(0, 1)).toBe("SUNK"); // sink a ship
+  expect(newGame.getBoard()[0][1][1]).toBe("X");
+});
