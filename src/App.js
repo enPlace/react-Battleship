@@ -35,7 +35,7 @@ function App() {
     }
   };
   useEffect(() => {
-    setTimeout(handleBot, 200);
+    setTimeout(handleBot, 100);
   });
 
   let row = 0;
