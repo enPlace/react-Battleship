@@ -28,12 +28,12 @@ First scenario: We hit a target initially, then randomly choose a square around 
 
 2a. We choose incorrectly and miss. We randomly choose a square from the remaining squares. We continue this step until we hit another target. Another array is needed here to keep track of the squares we are trying. In the first step, an array can be generated for the four sqares that are an option to hit next. In this step, we can take off each square's coordinate as we miss.  
 
-2b If we choose corretly and hit another target, we now have an orientation for the ship, and we continue in a direction around the first two hit targets.  We continue hitting until the ship is sunk. 
+3a If we choose corretly and hit another target, we now have an orientation for the ship, and we continue in a direction around the first two hit targets.  We continue hitting until the ship is sunk. 
 
-2c. If we choose correctly and hit another target, we continue in a direction until we miss, but haven't sunk the ship.  If this is the scenario, then we have to go back to the initial hit and continue in the other direction until 
+3b. If we choose correctly and hit another target, we continue in a direction until we miss, but haven't sunk the ship.  If this is the scenario, then we have to go back to the initial hit and continue in the other direction until 
 we sink the ship. 
 
-2d. We choose correctly and hit another target, and continue in a direction until we miss, but haven't sunk the ship, as in 2c. However, when we go back in the other direction, we hit again, but then miss again without sinking any ships, as in this scenario: 
+3c. We choose correctly and hit another target, and continue in a direction until we miss, but haven't sunk the ship, as in 2c. However, when we go back in the other direction, we hit again, but then miss again without sinking any ships, as in this scenario: 
 
 __ __  x  __ __ __ __
 __ __ s3x s3 s3 __ __
@@ -45,6 +45,22 @@ where s3 and s2 are ships with a length of three an two, respectively, and "s3x"
 now we know that we have two targets to hit! So we go back to s3 and repeat the process horizontally, until it is sunk. THEN we go to s2 and do the same process over again. 
 
 
+3d. We choose correctly and hit another target, and attack in a direction. We sink a ship, but the first target that we hit still isn't a sunk ship. This means that the ships are either  perpindicular, as in this example: 
+
+__ __ s4  __  __  __ __
+__ __ s4x s2x s2x __ __
+__ __ s4  __  __  __ __ 
+__ __ s4  __  __  __ __ 
+
+or connect along the same axis, as in this example: 
+
+__  __  __   __  __   __   __ 
+s4  s4  s4  s4x  s2x  s2x  __  
+__  __  __  __   __   __   __ 
+
+
+
+we hit s4 first, then hit s2 until we sink it. We would know, however, that s4 isn't sunk yet, so we would then go back and search around the first hit again until we 
 
 
 # Getting Started with Create React App

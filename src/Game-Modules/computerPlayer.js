@@ -1,14 +1,16 @@
 let mode = "random";
 let parallelMode; // mode for tracking steps in the parallel ship attack process
+
 let hitArray = []; //tracks hit targets
 let surroundingSquares = []; //tracks the surrounding squares for a hit target
 let move; // move response to be set and returned
 let orientation; // to set an orientation once the computer finds two parallel hit squares
-let parallelShips = []
+let parallelShips = [];
 
 const sunkShip = () => {
   //reverts back to randomly firing after a ship has been sunk
   mode = "random";
+
   hitArray = [];
   surroundingSquares = [];
   orientation = false;
@@ -21,11 +23,12 @@ const randomFire = (game) => {
   try {
     const res = game.fire(row, col);
     move = { res: res, board: game.getBoard() };
-    if(res ==="SUNK"){
-      sunkShip()
+    if (res === "SUNK") {
+      sunkShip();
     }
     if (Array.isArray(res)) {
       //it's a hit, add to hitArray and note surrounding squares
+
       hitArray.push([row, col]);
       surroundingSquares.push(
         [row - 1, col],
@@ -80,7 +83,43 @@ const honeIn = (game) => {
     honeIn(game); //need to fix infinite loop issue
   }
 };
+const PerpindicularOrConnectedOnSameAxis = (game) => {
+  let row = hitArray[hitArray.length - 1][0];
+  let col = hitArray[hitArray.length - 1][1];
+  const board = game.getBoard();
 
+  if (!board[row][col][2]) {
+    //check last target first
+    hitArray = [hitArray[hitArray.length - 1]]; //focus in on that target
+    surroundingSquares = [
+      [row - 1, col],
+      [row + 1, col],
+      [row, col - 1],
+      [row, col + 1],
+    ];
+    mode = "hone";
+    return true;
+  }
+
+  for (let i = 0; i < hitArray.length; i++) {
+    //
+    row = hitArray[i][0];
+    col = hitArray[i][1];
+    if (!board[row][col][2]) {
+      //means something in the hitArray hasn't been sunk
+      hitArray = [hitArray[i]]; //focus in on that target
+      surroundingSquares = [
+        [row - 1, col],
+        [row + 1, col],
+        [row, col - 1],
+        [row, col + 1],
+      ];
+      mode = "hone";
+      return true;
+    }
+  }
+  return false;
+};
 const sinkShip = (game) => {
   if (orientation === "horizontal") {
     const rowVal = hitArray[0][0];
@@ -91,7 +130,8 @@ const sinkShip = (game) => {
       const res = game.fire(rowVal, lowTargetColumnValue);
       move = { res: res, board: game.getBoard() };
       if (res === "SUNK") {
-        sunkShip();
+        const test = PerpindicularOrConnectedOnSameAxis(game);
+        if (!test) sunkShip();
       }
       if (Array.isArray(res)) {
         //hit a target, unshift coords to hitArray
@@ -105,7 +145,8 @@ const sinkShip = (game) => {
         const res = game.fire(rowVal, highTargetColumnValue);
         move = { res: res, board: game.getBoard() };
         if (res === "SUNK") {
-          sunkShip();
+          const test = PerpindicularOrConnectedOnSameAxis(game);
+          if (!test) sunkShip();
         }
         if (Array.isArray(res)) {
           //hit a target, push coords to hitArray
@@ -130,7 +171,8 @@ const sinkShip = (game) => {
       const res = game.fire(lowTargetRowValue, colValue);
       move = { res: res, board: game.getBoard() };
       if (res === "SUNK") {
-        sunkShip();
+        const test = PerpindicularOrConnectedOnSameAxis(game);
+        if (!test) sunkShip();
         return;
       }
       if (Array.isArray(res)) {
@@ -143,7 +185,8 @@ const sinkShip = (game) => {
         const res = game.fire(highTargetRowValue, colValue);
         move = { res: res, board: game.getBoard() };
         if (res === "SUNK") {
-          sunkShip();
+          const test = PerpindicularOrConnectedOnSameAxis(game);
+          if (!test) sunkShip();
         }
         if (Array.isArray(res)) {
           hitArray.push([highTargetRowValue, colValue]);
@@ -158,11 +201,11 @@ const sinkShip = (game) => {
   }
 };
 
-const parallelAttack=()=>{
+const parallelAttack = () => {
   //for when parallel ships are found.
   //take the hitArray coords and split them into their own object.
 
- /*   Honestly, there should be another mode variable here. 
+  /*   Honestly, there should be another mode variable here. 
 
         mode = "parallel attack"
         parallel modes: 
@@ -184,16 +227,15 @@ const parallelAttack=()=>{
     
   */
 
-  if(!parallelShips[0]){
-  
-  hitArray.forEach(target=>{
-    parallelShips.push(hitArray)
-  })
-  hitArray = []
-  hitArray = [parallelShips.shift()]
-  surroundingSquares = []
-}
-}
+  if (!parallelShips[0]) {
+    hitArray.forEach((target) => {
+      parallelShips.push(hitArray);
+    });
+    hitArray = [];
+    hitArray = [parallelShips.shift()];
+    surroundingSquares = [];
+  }
+};
 
 const computerPlayer = (game) => {
   if (mode === "random") {
