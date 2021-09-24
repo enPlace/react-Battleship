@@ -70,7 +70,7 @@ test("fire at a position", () => {
   expect(newGame.getBoard()[3][0]).toBe(1);
   expect(() => newGame.fire(3, 0)).toThrow("you already tried this spot");
   expect(() => newGame.fire(-1, 0)).toThrow();
-
+  expect(() => newGame.fire(0, 10)).toThrow();
   expect(newGame.fire(0, 0)).toStrictEqual([false, true]); //hit
   expect(newGame.getBoard()[0][0][1]).toBe("X");
 

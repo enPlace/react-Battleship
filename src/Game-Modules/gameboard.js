@@ -22,6 +22,8 @@ const gameboard = () => {
     s4: ship(4, "s4"),
     s5: ship(5, "s5"),
   };
+
+  const shipPlacements = { s2a: [], s2b: [], s3a: [], s3b: [], s4: [], s5: [] };
   const getShips = () => ships;
 
   const isGameOver = () => {
@@ -48,6 +50,7 @@ const gameboard = () => {
     for (let i = 0; i < ship.shipArray.length; i++) {
       //insert an array into the board with the ship name and index
       board[row][col + i] = [ship.name, i];
+      shipPlacements[shipName].push([row, col + i]);
     }
   };
 
@@ -65,6 +68,7 @@ const gameboard = () => {
     for (let i = 0; i < ship.shipArray.length; i++) {
       //insert an array into the board with the ship name and index
       board[row + i][col] = [ship.name, i];
+      shipPlacements[shipName].push([row + i, col]);
     }
   };
 
@@ -99,6 +103,9 @@ const gameboard = () => {
   };
 
   const fire = (row, col) => {
+    if (row < 0 || row > 9 || col < 0 || col > 9) {
+      throw new Error("index out of range");
+    }
     let target = board[row][col];
 
     if (!target) {
@@ -106,14 +113,24 @@ const gameboard = () => {
       board[row][col] = 1;
       return "MISS";
     }
-    if ((Array.isArray(target) && target[1] === "X") || target === 1)
+    if ((Array.isArray(target) && target[1] === "X") || target === 1) {
       //target is 1 or X then a hit or miss has been registered here
       throw new Error("you already tried this spot");
+    }
+
     if (Array.isArray(target)) {
       //Array that points to a ship object, its a hit. Change target[1] from index reference to "X"
       //to symbolize a hit
-      ships[target[0]].hitPosition(target[1]);
-      board[row][col][1] = "X";
+      const shipName = target[0];
+      ships[shipName].hitPosition(target[1]); //register hit in ship object
+      board[row][col][1] = "X"; //register hit on the board
+
+      if (ships[shipName].isSunk()) {//adds "SUNK" data to each part of the ship on the board 
+        shipPlacements[shipName].forEach((coord) => {
+          board[coord[0]][coord[1]][2] = "SUNK";
+        });
+      }
+
       return ships[target[0]].isSunk() ? "SUNK" : ships[target[0]].shipArray;
     }
   };

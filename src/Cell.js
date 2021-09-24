@@ -37,13 +37,13 @@ const Cell = ({
       </div>
     );
   } else if (Array.isArray(item)) {
-    const sunkStatus = game.getShips()[item[0]].isSunk() ? "SUNK" : "FLOATING";
+/*     const sunkStatus = game.getShips()[item[0]].isSunk() ? "SUNK" : "FLOATING"; */
     return item[1] !== "X" ? (
       <div
         key={`${row}, ${col}}`}
         data-row={row - 1}
         data-col={col - 1}
-        className={`cell ${item[0]} ${sunkStatus}`}
+        className={`cell `}
         onClick={(e) => {
           if (opponent === turn) {
             try {
@@ -65,7 +65,7 @@ const Cell = ({
         style={{ backgroundColor: "red" }}
         data-row={row - 1}
         data-col={col - 1}
-        className={`cell ${item[0]} ${sunkStatus}`}
+        className={`cell `}
       >
         X
       </div>

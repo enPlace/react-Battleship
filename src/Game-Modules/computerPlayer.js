@@ -1,10 +1,13 @@
 let mode = "random";
+let parallelMode; // mode for tracking steps in the parallel ship attack process
 let hitArray = []; //tracks hit targets
 let surroundingSquares = []; //tracks the surrounding squares for a hit target
 let move; // move response to be set and returned
 let orientation; // to set an orientation once the computer finds two parallel hit squares
+let parallelShips = []
 
 const sunkShip = () => {
+  //reverts back to randomly firing after a ship has been sunk
   mode = "random";
   hitArray = [];
   surroundingSquares = [];
@@ -18,7 +21,11 @@ const randomFire = (game) => {
   try {
     const res = game.fire(row, col);
     move = { res: res, board: game.getBoard() };
+    if(res ==="SUNK"){
+      sunkShip()
+    }
     if (Array.isArray(res)) {
+      //it's a hit, add to hitArray and note surrounding squares
       hitArray.push([row, col]);
       surroundingSquares.push(
         [row - 1, col],
@@ -29,6 +36,7 @@ const randomFire = (game) => {
       mode = "hone";
     }
   } catch {
+    //if error is returned, call function again
     randomFire(game);
   }
 };
@@ -69,7 +77,7 @@ const honeIn = (game) => {
     }
   } catch {
     //encountered error with firing at a surrounding square. Try again.
-    honeIn(game);
+    honeIn(game); //need to fix infinite loop issue
   }
 };
 
@@ -150,6 +158,43 @@ const sinkShip = (game) => {
   }
 };
 
+const parallelAttack=()=>{
+  //for when parallel ships are found.
+  //take the hitArray coords and split them into their own object.
+
+ /*   Honestly, there should be another mode variable here. 
+
+        mode = "parallel attack"
+        parallel modes: 
+          "split", 
+          "hone", 
+          "sink", --  attacks the ship on its axis  
+           sunkShip() but sets parallel mode to "hone" instead of random unless there are no more parallel array objs
+
+
+
+    
+  For the parallel attack decision tree, the first step is to check whether or not the hitArray has been 
+    split into its own object. 
+    2a. If it has not, we split the hitArray up, assign the surrounding squares, make the first target the hit array. 
+      3a then we use the honeIn() method to find the orientation
+      4a then we use the sinkShip() method to attack the ship once we find the direction. 
+    
+    2b if it has already been split, we need to 
+    
+  */
+
+  if(!parallelShips[0]){
+  
+  hitArray.forEach(target=>{
+    parallelShips.push(hitArray)
+  })
+  hitArray = []
+  hitArray = [parallelShips.shift()]
+  surroundingSquares = []
+}
+}
+
 const computerPlayer = (game) => {
   if (mode === "random") {
     randomFire(game);
@@ -161,6 +206,10 @@ const computerPlayer = (game) => {
   }
   if (mode === "sink") {
     sinkShip(game);
+    return move;
+  }
+  if (mode === "parallel ships") {
+    parallelAttack(game);
     return move;
   }
 };

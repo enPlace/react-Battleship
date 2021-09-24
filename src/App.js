@@ -22,18 +22,20 @@ function App() {
   };
 
   const handleBot = () => {
-    if (turn === "p2") {
-      const botMove = computerPlayer(p1Game);
+    if (!p1Game.isGameOver()) {
+      if (turn === "p2" || turn === "p1") {
+        const botMove = computerPlayer(p1Game);
 
-      if (botMove["res"] === "MISS") {
-        handleChangeTurn();
-      } else if (Array.isArray(botMove["res"]) || botMove["res"] === "SUNK") {
-        setP1Board([...botMove.board]);
+        if (botMove["res"] === "MISS") {
+          handleChangeTurn();
+        } else if (Array.isArray(botMove["res"]) || botMove["res"] === "SUNK") {
+          setP1Board([...botMove.board]);
+        }
       }
     }
   };
   useEffect(() => {
-    setTimeout(handleBot, 700);
+   /*  setTimeout(handleBot, 100); */
   });
 
   let row = 0;
