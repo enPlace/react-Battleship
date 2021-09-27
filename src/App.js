@@ -8,6 +8,7 @@ import computerPlayer from "./Game-Modules/computerPlayer";
 const p1Game = gameboard();
 p1Game.placeShipsRandomly();
 
+
 const p2Game = gameboard();
 p2Game.placeShipsRandomly();
 
@@ -35,7 +36,7 @@ function App() {
     }
   };
   useEffect(() => {
-    setTimeout(handleBot, 100);
+    setTimeout(handleBot, 75);
   });
 
   let row = 0;

@@ -30,12 +30,12 @@ let move; // move response to be set and returned
 let orientation; // to set an orientation once the computer finds two parallel hit squares
 
 const sunkShip = () => {
-  //reverts back to randomly firing after a ship has been sunk
-
+  // fires after a ship has been sunk
   hitArray = [];
   surroundingSquares = [];
   orientation = false;
 };
+
 const generateSurroundingSquares = (row, col) => {
   surroundingSquares.push(
     [row - 1, col],
@@ -44,6 +44,7 @@ const generateSurroundingSquares = (row, col) => {
     [row, col + 1]
   );
 };
+
 const randomFire = (game) => {
   //fires at randomly generated position
   const row = Math.floor(Math.random() * 10);
@@ -61,57 +62,99 @@ const randomFire = (game) => {
       generateSurroundingSquares(row, col);
     }
   } catch {
-    //if error is returned, call function again
+    //if error is returned, try again
     randomFire(game);
   }
 };
 
+export const checkSurroundingSquares = (row, col, game) => {
+  //checks the squares around a given target to see if they can be attacked
+  const board = game.getBoard();
+  //check if it is at the edge of the board
+  const left = col > 0 ? board[row][col - 1] : false;
+  const right = col < 9 ? board[row][col + 1] : false;
+  const top = row > 0 ? board[row - 1][col] : false;
+  const bottom = row < 9 ? board[row + 1][col] : false;
+  const checkArray = [left, right, top, bottom];
+  let sum = 0;
+  checkArray.forEach((square) => {
+    const hasBeenMissed = square === 1;
+    const hasBeenHit = Array.isArray(square) && square[1] === "X";
+
+    if (square === false || hasBeenMissed || hasBeenHit) sum++;
+  });
+
+  return { checkArray, sum }; //if sum is 4, there are no available squares to fire
+};
 const honeIn = (game) => {
-  //searches for the ship in the surrounding squares of the previous hit
-  const randomIndex = Math.floor(Math.random() * surroundingSquares.length);
-  const target = surroundingSquares[randomIndex];
+  //searches for the ship in the surrounding squares of the initial hit
 
-  try {
-    const board = game.getBoard();
-    const res = game.fire(target[0], target[1]);
-    move = { res: res, board: game.getBoard() };
-    if (res === "SUNK") {
- 
+  const canFire =
+    //first, check the surrounding squares to make sure that it is possible to hit.
+    checkSurroundingSquares(hitArray[0][0], hitArray[0][1], game).sum !== 4;
+  if (!canFire) {
+    hitArray = [];
+    surroundingSquares = [];
+    if (targetStack[0]) {
+      manageTargetStack(game);
+    } else randomFire(game);
+  } else { //can fire at atleast one of the surrounding squares
+    const randomIndex = Math.floor(Math.random() * surroundingSquares.length);
+    const target = surroundingSquares[randomIndex];
 
-      if (board[hitArray[0][0]][hitArray[0][1]][2] === "SUNK") {
-        //1st check to make sure that the initial target is sunk.
-        // if SUNK, ship is only two squares long and we aren't looking for anything else
-        sunkShip();
-      } else{
-        return 
-        //hitArray length is still 1, we return the move and next time computerPlayer is called, it will call honeIn() agin
+    try {
+      const board = game.getBoard();
+      const res = game.fire(target[0], target[1]);
+      move = { res: res, board: game.getBoard() };
+      if (res === "SUNK") {
+        if (board[hitArray[0][0]][hitArray[0][1]][2] === "SUNK") {
+          //1st check to make sure that the initial target is sunk.
+          // if SUNK, ship is only two squares long and we aren't looking for anything else
+          sunkShip();
+        } else {
+          return;
+          //hitArray length is still 1, we return the move and next time computerPlayer is called, it will still call honeIn() 
+        }
       }
-    }
-    if (Array.isArray(res)) {
-      //hit a ship, now push the coordinates to the hitArray
-      //and  compare to see what the orientation of the ship is
-
-      if (hitArray[0][0] === target[0]) {
-        //row is the same
-        orientation = "horizontal";
-        if (target[1] > hitArray[0][1]) {
-          //make sure hitArray is in ascending column order
-          hitArray.push(target);
-        } else hitArray.unshift(target);
-      } else if (hitArray[0][1] === target[1]) {
-        //col is the same
-        orientation = "vertical";
-        if (target[0] > hitArray[0][0]) {
-          //make sure hit array is in ascending row order
-          hitArray.push(target);
-        } else hitArray.unshift(target);
+      if (Array.isArray(res)) {
+        //hit a ship, now push the coordinates to the hitArray and 
+        //compare to see what the orientation of the ship is
+        surroundingSquares = [];
+        if (hitArray[0][0] === target[0]) {
+          //row is the same
+          orientation = "horizontal";
+          if (target[1] > hitArray[0][1]) {
+            //make sure hitArray is in ascending column order
+            hitArray.push(target);
+          } else hitArray.unshift(target);
+        } else if (hitArray[0][1] === target[1]) {
+          //col is the same
+          orientation = "vertical";
+          if (target[0] > hitArray[0][0]) {
+            //make sure hit array is in ascending row order
+            hitArray.push(target);
+          } else hitArray.unshift(target);
+        }
       }
+    } catch {
+      //encountered error with firing at a surrounding square. Try again.
+      honeIn(game);
     }
-  } catch {
-    //encountered error with firing at a surrounding square. Try again.
-    honeIn(game); //need to fix infinite loop issue
   }
 };
+
+const pushToTargetStack = (game) => {
+  //pushes any unsunk targets from hitArray to stack
+  const board = game.getBoard();
+  hitArray.forEach((target) => {
+    const row = target[0];
+    const col = target[1];
+    if (board[row][col][2] !== "SUNK") {
+      targetStack.push(target);
+    }
+  });
+};
+
 const sinkShip = (game) => {
   if (orientation === "horizontal") {
     const rowVal = hitArray[0][0];
@@ -122,10 +165,11 @@ const sinkShip = (game) => {
       const res = game.fire(rowVal, lowTargetColumnValue);
       move = { res: res, board: game.getBoard() };
       if (res === "SUNK") {
-        sunkShip();
+        pushToTargetStack(game); // push any unsunk targets from hitArray to stack
+        sunkShip(); //clear hitArray
       }
       if (Array.isArray(res)) {
-        //hit a target, unshift coords to hitArray
+        //hit a target, unshift coords to hitArray(left side)
         hitArray.unshift([rowVal, lowTargetColumnValue]);
       }
 
@@ -136,19 +180,21 @@ const sinkShip = (game) => {
         const res = game.fire(rowVal, highTargetColumnValue);
         move = { res: res, board: game.getBoard() };
         if (res === "SUNK") {
-          sunkShip();
+          pushToTargetStack(game); // push any unsunk targets from hitArray to stack
+          sunkShip(); //clear hitArray
         }
         if (Array.isArray(res)) {
-          //hit a target, push coords to hitArray
+          //hit a target, push coords to hitArray (right side)
           hitArray.push([rowVal, highTargetColumnValue]);
         }
 
         return;
       } catch {
-        //can't fire to left or right, but haven't sunk a ship. Parallel ships
-        console.log("parallel ships but for now randomize line 102");
-        sunkShip();
-        randomFire(game);
+        //can't fire to left or right, but haven't sunk a ship. Parallel vertical ships
+        console.log("parallel ships, trying new tactic");
+        pushToTargetStack(game); // push any unsunk targets from hitArray to stack
+        sunkShip(); //clear hitArray
+        manageTargetStack(game); //begin attacking targets in stack
       }
     }
   } else if (orientation === "vertical") {
@@ -161,11 +207,12 @@ const sinkShip = (game) => {
       const res = game.fire(lowTargetRowValue, colValue);
       move = { res: res, board: game.getBoard() };
       if (res === "SUNK") {
-        sunkShip();
+        pushToTargetStack(game); // push any unsunk targets from hitArray to stack
+        sunkShip(); //clear hitArray
         return;
       }
       if (Array.isArray(res)) {
-        //hit a ship, unshift to array
+        //hit a ship, unshift to array (top side)
         hitArray.unshift([lowTargetRowValue, colValue]);
       }
     } catch {
@@ -174,23 +221,28 @@ const sinkShip = (game) => {
         const res = game.fire(highTargetRowValue, colValue);
         move = { res: res, board: game.getBoard() };
         if (res === "SUNK") {
-          sunkShip();
+          pushToTargetStack(game); // push any unsunk targets from hitArray to stack
+          sunkShip(); //clear hitArray
         }
         if (Array.isArray(res)) {
+          //hit a ship, unshift to array (bottom side)
           hitArray.push([highTargetRowValue, colValue]);
         }
       } catch {
-        //can't fire to top or bottom, but haven't sunk a ship. Parallel ships
-        console.log("parallel ships but for now randomize line 133");
-        sunkShip();
-        randomFire(game);
+        //can't fire to top or bottom, but haven't sunk a ship. Parallel horizontal ships
+        console.log("parallel ships, trying new tactic");
+        pushToTargetStack(game); // push any unsunk targets from hitArray to stack
+        sunkShip(); //clear hitArray
+        manageTargetStack(game); //begin attacking targets in stack
       }
     }
   }
 };
 
 const manageTargetStack = (game) => {
-  //only way we get here should be if the hitArray is empty
+  //Only way we get here should be if the hitArray is empty & targetStack is not empty
+  //This function takes a target from the stack and sends it to hit array if appropriate.
+
   const board = game.getBoard();
   const shiftTarget = targetStack.shift(); //[row, col]
   if (board[shiftTarget[0]][shiftTarget[1]][2] !== "SUNK") {
@@ -210,7 +262,7 @@ const manageTargetStack = (game) => {
 
 const computerPlayer = (game) => {
   if (hitArray.length === 0) {
-    // no target to attack
+    // not currently attacking any ship
     if (targetStack.length === 0) {
       //no previous hit targets to add to attack
       randomFire(game);
@@ -221,11 +273,12 @@ const computerPlayer = (game) => {
     }
   }
   if (hitArray.length === 1) {
-    // we have a target to attack
+    // we have a target and are trying to find the rest of the ship
     honeIn(game);
     return move;
   }
   if (hitArray.length > 1) {
+    //found the ship, keep attacking
     sinkShip(game);
     return move;
   }
