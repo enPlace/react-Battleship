@@ -1,7 +1,9 @@
 .App {
   text-align: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .App-logo {
@@ -20,9 +22,27 @@
   width: 30px;
   height: 30px; 
   box-sizing: border-box;
-  border: 1px solid black;
+  border: 1px solid rgb(1, 30, 156);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(64, 128, 224, 0.404);
 }
-
+.s2{
+  background-color: yellow;
+}
+.s3{
+  background-color: yellowgreen;
+}
+.s4 {
+  background-color: orange;
+}
+.s5{
+  background-color: rgb(60, 60, 243);
+}
+.cell:hover {
+  cursor:all-scroll;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
