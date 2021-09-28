@@ -1,11 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Notable&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+body{
+  background-color:rgba(22, 24, 51, 0.925);
+}
+
 .App {
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
+  
 }
+header{
+  margin-bottom: 10px;
+  font-family: 'Notable', sans-serif;
+  font-size:25px;
+  letter-spacing: 2px;
+  width: 100%;
+  background: rgb(185, 183, 183);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header img{
+  margin: 0;
+}
+h1{
+  margin: 0 0 15px 10px;
+  background: -webkit-linear-gradient( rgb(0, 15, 212), rgb(41, 41, 41));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 
+}
+h3 {
+  font-family: 'Press Start 2P', cursive;
+  
+  
+  
+  
+  color:rgb(116, 140, 248); ;
+}
+.gameState {
+  font-family: 'Press Start 2P', cursive;
+  color:rgb(116, 140, 248); ;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -15,6 +55,8 @@
   height: 300px; 
   display: flex;
   flex-wrap: wrap;
+  border: 1px solid rgb(1, 30, 156);
+  background-color: rgba(4, 68, 165, 0.404);
   
 
 }
@@ -22,26 +64,63 @@
   width: 30px;
   height: 30px; 
   box-sizing: border-box;
-  border: 1px solid rgb(1, 30, 156);
+  padding: 0;
+  border: 1px solid rgb(1, 37, 197);
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: rgba(64, 128, 224, 0.404);
+  justify-content: center;
+  
+ 
+  /* background-color: rgba(64, 128, 224, 0.404); */
 }
 .s2{
-  background-color: yellow;
+  background-color: rgba(243, 243, 10, 0.808);
+
 }
 .s3{
   background-color: yellowgreen;
+
 }
 .s4 {
   background-color: orange;
+
 }
 .s5{
   background-color: rgb(60, 60, 243);
 }
 .cell:hover {
   cursor:all-scroll;
+}
+
+.horizontal.start {
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+
+  border-right: none
+}
+.horizontal.end {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+
+  border-left: none
+  
+}
+
+.vertical.start {
+  border-top-right-radius: 50%;
+  border-top-left-radius: 50%;
+ 
+  border-bottom: none
+}
+.vertical.end {
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+
+  
+  border-top: none
+}
+.sunk{
+  background-color: rgba(207, 28, 4, 0.699);
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

@@ -34,6 +34,7 @@ const sunkShip = () => {
   hitArray = [];
   surroundingSquares = [];
   orientation = false;
+  
 };
 
 const generateSurroundingSquares = (row, col) => {
@@ -55,6 +56,7 @@ const randomFire = (game) => {
     move = { res: res, board: game.getBoard() };
     if (res === "SUNK") {
       sunkShip();
+      
     }
     if (Array.isArray(res)) {
       //it's a hit, add to hitArray and note surrounding squares
@@ -261,6 +263,9 @@ const manageTargetStack = (game) => {
 };
 
 const computerPlayer = (game) => {
+  if(move && move.res ==="SUNK"){
+    console.log(game.getBoard())
+  }
   if (hitArray.length === 0) {
     // not currently attacking any ship
     if (targetStack.length === 0) {

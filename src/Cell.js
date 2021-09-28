@@ -1,6 +1,6 @@
-import explosion from "./Assets/explosion.svg"
-import splash from "./Assets/splash.svg"
-import wave from "./Assets/wave.svg"
+import explosion from "./Assets/explosion.svg";
+import splash from "./Assets/splash.svg";
+import wave from "./Assets/wave.svg";
 const Cell = ({
   item,
   row,
@@ -19,11 +19,10 @@ const Cell = ({
           e.target.dataset.row,
           e.target.dataset.col
         );
-        
-        const gameOver = game.isGameOver()
+
+        const gameOver = game.isGameOver();
         if (fireResponse === "MISS" && !game.isGameOver()) {
           handleChangeTurn();
-          
         } else if (gameOver) {
           handleChangeTurn("GAME OVER");
         }
@@ -46,25 +45,27 @@ const Cell = ({
   } else if (item === 1) {
     return (
       <div data-row={row - 1} data-col={col - 1} className="cell">
-        <img src={splash} style = {{width:"50%"}} alt="" />
+        <img src={splash} style={{ width: "50%" }} alt="" />
       </div>
     );
   } else if (Array.isArray(item)) {
     /*     const sunkStatus = game.getShips()[item[0]].isSunk() ? "SUNK" : "FLOATING"; */
     if (item[1] !== "X")
       return ships === "show" ? (
-        <div
-       
-          key={`${row}, ${col}}`}
-
-          data-row={row - 1}
-          data-col={col - 1}
-          className={`cell ${item[0][0]}${item[0][1]} `}
-          onClick={(e) => {
-            fireOnOpponent(e);
-          }}
-        >
-          
+        <div className="cell">
+          <div
+          style = {{width: "100%", height: "100%", zIndex:"10"}}
+            key={`${row}, ${col}}`}
+            data-row={row - 1}
+            data-col={col - 1}
+            className={`ship ${item[0][0]}${item[0][1]} ${item[3]} ${
+              item[1] === 0 ? "start" : ""
+            } ${item[0][1] - 1 === item[1] ? "end" : ""} }`}
+            onClick={(e) => {
+              fireOnOpponent(e);
+            
+            }}
+          ></div>
         </div>
       ) : (
         <div
@@ -80,12 +81,12 @@ const Cell = ({
     else
       return item[2] ? (
         <div
-          style={{ backgroundColor: "red" }}
+
           data-row={row - 1}
           data-col={col - 1}
-          className={`cell `}
+          className={`cell sunk`}
         >
-          <img src={explosion} style = {{width : "80%"}} alt="" />
+          <img src={explosion} style={{ width: "80%" }} alt="" />
         </div>
       ) : (
         <div
@@ -94,7 +95,7 @@ const Cell = ({
           data-col={col - 1}
           className={`cell `}
         >
-          <img src={explosion} style = {{width : "80%"}} alt="" />
+          <img src={explosion} style={{ width: "80%" }} alt="" />
         </div>
       );
   }

@@ -49,7 +49,7 @@ const gameboard = () => {
     }
     for (let i = 0; i < ship.shipArray.length; i++) {
       //insert an array into the board with the ship name and index
-      board[row][col + i] = [ship.name, i];
+      board[row][col + i] = [ship.name, i, false, "horizontal"];
       shipPlacements[shipName].push([row, col + i]);
     }
   };
@@ -67,7 +67,7 @@ const gameboard = () => {
     }
     for (let i = 0; i < ship.shipArray.length; i++) {
       //insert an array into the board with the ship name and index
-      board[row + i][col] = [ship.name, i];
+      board[row + i][col] = [ship.name, i, false, "vertical"];
       shipPlacements[shipName].push([row + i, col]);
     }
   };
