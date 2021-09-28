@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
+import ShipKey from "./ShipKey";
 import Cell from "./Cell";
 import Header from "./Header";
 import GameState from "./GameState";
@@ -42,7 +43,7 @@ function App() {
 
   const handleBot = () => {
     if (!p1Game.isGameOver()) {
-      if (turn === "p2"/*  || turn === "p1" */) {
+      if (turn === "p2"|| turn === "p1" ) {
         const botMove = computerPlayer(p1Game);
 
         if (botMove["res"] === "MISS") {
@@ -94,7 +95,10 @@ function App() {
             >
               Randomize
             </button>
+           
+
           </div>
+          <ShipKey game = {p1Game} turn = {turn}></ShipKey>
         </div>
         <GameState turn={turn} winner = {winner} newGame={newGame} />
         <div
@@ -135,6 +139,9 @@ function App() {
             });
           })}
           <h3>Opponent's grid</h3>
+          <div>
+          <ShipKey game = {p2Game}turn = {turn}></ShipKey>
+          </div>
         </div>
       </div>
       <Footer></Footer>
