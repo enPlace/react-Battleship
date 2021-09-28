@@ -4,7 +4,7 @@ import ShipKey from "./ShipKey";
 import Cell from "./Cell";
 import Header from "./Header";
 import GameState from "./GameState";
-import Footer from "./Footer";
+
 import radar from "./Assets/radar4.svg";
 import gameboard from "./Game-Modules/gameboard";
 import computerPlayer from "./Game-Modules/computerPlayer";
@@ -20,6 +20,7 @@ function App() {
   const [p2Board, setP2Board] = useState(p2Game.getBoard());
   const [turn, setTurn] = useState("p1");
   const [winner, setWinner] = useState();
+  
 
   const newGame = () => {
     p1Game = gameboard();
@@ -30,7 +31,7 @@ function App() {
     setP1Board(p1Game.getBoard());
     setP2Board(p2Game.getBoard());
     setTurn("p1");
-    setWinner("")
+    setWinner("");
   };
 
   const handleChangeTurn = (value) => {
@@ -38,12 +39,11 @@ function App() {
       setWinner(turn);
       setTurn(value);
     } else return turn === "p1" ? setTurn("p2") : setTurn("p1");
-    
   };
 
   const handleBot = () => {
     if (!p1Game.isGameOver()) {
-      if (turn === "p2"|| turn === "p1" ) {
+      if (turn === "p2") {
         const botMove = computerPlayer(p1Game);
 
         if (botMove["res"] === "MISS") {
@@ -64,87 +64,115 @@ function App() {
     <div className="App">
       <Header turn={turn} newGame={newGame}></Header>
       <div className="gameContainer" style={{ display: "flex" }}>
-        <div className="board" style={{}}>
-          {p1Board.map((array) => {
-            let col = 0;
-            row++;
-            return array.map((item) => {
-              col++;
-              return (
-                <Cell
-                  key={`${row - 1}, ${col - 1}}`}
-                  item={item}
-                  row={row}
-                  col={col}
-                  game={p1Game}
-                  setBoard={setP1Board}
-                  opponent="p2"
-                  turn={turn}
-                  handleChangeTurn={handleChangeTurn}
-                  ships="show"
-                />
-              );
-            });
-          })}
+        <div className="playerGame">
+          <div className="board" style={{}}>
+            {p1Board.map((array) => {
+              let col = 0;
+              row++;
+              return array.map((item) => {
+                col++;
+                return (
+                  <Cell
+                    key={`${row - 1}, ${col - 1}}`}
+                    item={item}
+                    row={row}
+                    col={col}
+                    game={p1Game}
+                    setBoard={setP1Board}
+                    opponent="p2"
+                    turn={turn}
+                    handleChangeTurn={handleChangeTurn}
+                    ships="show"
+                  />
+                );
+              });
+            })}
+          </div>
           <div className="playerInfo">
             <h3>Your grid</h3>
-            <button
-              onClick={() => {
-                newGame();
-              }}
-            >
-              Randomize
-            </button>
-           
-
+            <div className="buttons">
+              <button
+                id="shuffle"
+                onClick={() => {
+                  newGame();
+                }}
+              >
+                Shuffle
+              </button>
+             {/*  <button
+                id="shuffle"
+                onClick={() => {
+                  newGame();
+                }}
+              >
+                Place Ships
+              </button> */}
+              <button
+                id="shuffle"
+                onClick={() => {
+                  newGame();
+                }}
+              >
+                Computer Demo
+              </button>
+            </div>
           </div>
-          <ShipKey game = {p1Game} turn = {turn}></ShipKey>
         </div>
-        <GameState turn={turn} winner = {winner} newGame={newGame} />
-        <div
-          className="board"
-          style={{
-            position: "relative",
-          }} /* style = {{backgroundImage : `url(${radar})`, backgroundSize: "contain" }} */
-        >
-          <img
-            src={radar}
-            alt=""
+        <div className="middleInfo">
+          <GameState turn={turn} winner={winner} newGame={newGame} />
+          <div
+            className="shipKeys"
+            style={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <ShipKey game={p1Game} justify="left"></ShipKey>
+            <ShipKey game={p2Game} justify="right"></ShipKey>
+          </div>
+        </div>
+        <div className="playerGame">
+          <div
+            className="board"
             style={{
-              position: "absolute",
-              width: "100%",
-              zIndex: "-1",
-              opacity: "0.7",
+              position: "relative",
             }}
-          />
-          {p2Board.map((array) => {
-            let col = 0;
-            row++;
-            return array.map((item) => {
-              col++;
-              return (
-                <Cell
-                  key={`${row - 10}, ${col - 1}}`}
-                  item={item}
-                  row={row - 10}
-                  col={col}
-                  game={p2Game}
-                  setBoard={setP2Board}
-                  opponent="p1"
-                  turn={turn}
-                  handleChangeTurn={handleChangeTurn}
-                  ships="hide"
-                />
-              );
-            });
-          })}
-          <h3>Opponent's grid</h3>
-          <div>
-          <ShipKey game = {p2Game}turn = {turn}></ShipKey>
+          >
+            <img
+              src={radar}
+              alt=""
+              style={{
+                position: "absolute",
+                width: "100%",
+                zIndex: "-1",
+                opacity: "0.7",
+              }}
+            />
+            {p2Board.map((array) => {
+              let col = 0;
+              row++;
+              return array.map((item) => {
+                col++;
+                return (
+                  <Cell
+                    key={`${row - 10}, ${col - 1}}`}
+                    item={item}
+                    row={row - 10}
+                    col={col}
+                    game={p2Game}
+                    setBoard={setP2Board}
+                    opponent="p1"
+                    turn={turn}
+                    handleChangeTurn={handleChangeTurn}
+                    ships="hide"
+                  />
+                );
+              });
+            })}
+          </div>
+          <div className="playerInfo">
+            <h3>Opponent's grid</h3>
           </div>
         </div>
       </div>
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </div>
   );
 }

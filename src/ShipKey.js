@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const ShipKey = ({ game }) => {
+const ShipKey = ({ game, justify }) => {
   const [ships, setShips] = useState(game.getShips());
   const shipKeys = Object.keys(ships);
 
@@ -11,10 +11,11 @@ const ShipKey = ({ game }) => {
   return (
     <div
       style={{
-        width: "75px",
+        width: "51px",
         display: "flex",
         flexWrap: "wrap",
         alignItems: "center",
+        justifyContent: `${justify}`
       }}
     >
       {shipKeys.map((key) => {

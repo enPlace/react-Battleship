@@ -49,7 +49,7 @@ const Cell = ({
       </div>
     );
   } else if (Array.isArray(item)) {
-    /*     const sunkStatus = game.getShips()[item[0]].isSunk() ? "SUNK" : "FLOATING"; */
+
     if (item[1] !== "X")
       return ships === "show" ? (
         <div className="cell">
