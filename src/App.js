@@ -20,7 +20,7 @@ function App() {
   const [p2Board, setP2Board] = useState(p2Game.getBoard());
   const [turn, setTurn] = useState("p1");
   const [winner, setWinner] = useState();
-  
+  const [computerDemo, setComputerDemo] = useState(false);
 
   const newGame = () => {
     p1Game = gameboard();
@@ -42,7 +42,7 @@ function App() {
   };
 
   const handleBot = () => {
-    if (!p1Game.isGameOver()) {
+    if (!computerDemo) {
       if (turn === "p2") {
         const botMove = computerPlayer(p1Game);
 
@@ -53,10 +53,23 @@ function App() {
           if (p1Game.isGameOver()) handleChangeTurn("GAME OVER");
         }
       }
+    } else {
+      const botMove = computerPlayer(p1Game);
+
+      if (botMove["res"] === "MISS") {
+        handleChangeTurn();
+      } else if (Array.isArray(botMove["res"]) || botMove["res"] === "SUNK") {
+        setP1Board([...botMove.board]);
+        if (p1Game.isGameOver()) {
+          setComputerDemo(!computerDemo);
+          handleChangeTurn("GAME OVER");
+        }
+      }
     }
   };
   useEffect(() => {
-    setTimeout(handleBot, 400);
+    if (!p1Game.isGameOver() && !computerDemo) setTimeout(handleBot, 400);
+    else if (!p1Game.isGameOver() && computerDemo) setTimeout(handleBot, 100);
   });
 
   let row = 0;
@@ -97,9 +110,9 @@ function App() {
                   newGame();
                 }}
               >
-                Shuffle
+                Shuffle / New Game
               </button>
-             {/*  <button
+              {/*  <button
                 id="shuffle"
                 onClick={() => {
                   newGame();
@@ -110,16 +123,22 @@ function App() {
               <button
                 id="shuffle"
                 onClick={() => {
-                  newGame();
+                  if(turn==="GAME OVER") newGame()
+                  setComputerDemo(!computerDemo);
                 }}
               >
-                Computer Demo
+                {!computerDemo ? "Run computer demo" : "Pause demo"}
               </button>
             </div>
           </div>
         </div>
         <div className="middleInfo">
-          <GameState turn={turn} winner={winner} newGame={newGame} />
+          <GameState
+            turn={turn}
+            winner={winner}
+            newGame={newGame}
+            computerDemo={computerDemo}
+          />
           <div
             className="shipKeys"
             style={{ display: "flex", justifyContent: "space-between" }}

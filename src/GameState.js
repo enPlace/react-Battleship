@@ -1,4 +1,4 @@
-const GameState = ({ turn, newGame, winner }) => {
+const GameState = ({ turn, newGame, winner, computerDemo }) => {
   let gameState;
   const playAgain =
     turn !== "GAME OVER" ? null : (
@@ -14,7 +14,7 @@ const GameState = ({ turn, newGame, winner }) => {
  
   return (
     <div className = "gameState" style = {{margin: "20px", width: "100px"}}  >
-      <p style = {{fontSize: "12px"}}>{gameState}</p>
+      {!computerDemo? <p style = {{fontSize: "12px"}}>{gameState}</p>: null}
       
       {playAgain}
     </div>
