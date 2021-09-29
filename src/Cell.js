@@ -1,6 +1,6 @@
 import explosion from "./Assets/explosion.svg";
 import splash from "./Assets/splash.svg";
-import wave from "./Assets/wave.svg";
+
 const Cell = ({
   item,
   row,
@@ -49,12 +49,11 @@ const Cell = ({
       </div>
     );
   } else if (Array.isArray(item)) {
-
     if (item[1] !== "X")
       return ships === "show" ? (
         <div className="cell">
           <div
-          style = {{width: "100%", height: "100%", zIndex:"10"}}
+            style={{ width: "100%", height: "100%", zIndex: "10" }}
             key={`${row}, ${col}}`}
             data-row={row - 1}
             data-col={col - 1}
@@ -63,7 +62,6 @@ const Cell = ({
             } ${item[0][1] - 1 === item[1] ? "end" : ""} }`}
             onClick={(e) => {
               fireOnOpponent(e);
-            
             }}
           ></div>
         </div>
@@ -80,12 +78,7 @@ const Cell = ({
       );
     else
       return item[2] ? (
-        <div
-
-          data-row={row - 1}
-          data-col={col - 1}
-          className={`cell sunk`}
-        >
+        <div data-row={row - 1} data-col={col - 1} className={`cell sunk`}>
           <img src={explosion} style={{ width: "80%" }} alt="" />
         </div>
       ) : (

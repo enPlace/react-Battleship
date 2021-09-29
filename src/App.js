@@ -4,7 +4,7 @@ import ShipKey from "./ShipKey";
 import Cell from "./Cell";
 import Header from "./Header";
 import GameState from "./GameState";
-
+import { checkerBoardCoords } from "./Game-Modules/checkerBoard";
 import radar from "./Assets/radar4.svg";
 import gameboard from "./Game-Modules/gameboard";
 import computerPlayer from "./Game-Modules/computerPlayer";
@@ -14,13 +14,14 @@ p1Game.placeShipsRandomly();
 
 let p2Game = gameboard();
 p2Game.placeShipsRandomly();
-
+console.log(checkerBoardCoords)
 function App() {
   const [p1Board, setP1Board] = useState(p1Game.getBoard());
   const [p2Board, setP2Board] = useState(p2Game.getBoard());
   const [turn, setTurn] = useState("p1");
   const [winner, setWinner] = useState();
   const [computerDemo, setComputerDemo] = useState(false);
+  const [mode, setMode ] = useState("easy")
 
   const newGame = () => {
     p1Game = gameboard();
@@ -44,7 +45,7 @@ function App() {
   const handleBot = () => {
     if (!computerDemo) {
       if (turn === "p2") {
-        const botMove = computerPlayer(p1Game);
+        const botMove = computerPlayer(p1Game, mode);
 
         if (botMove["res"] === "MISS") {
           handleChangeTurn();
@@ -54,7 +55,7 @@ function App() {
         }
       }
     } else {
-      const botMove = computerPlayer(p1Game);
+      const botMove = computerPlayer(p1Game, mode);
 
       if (botMove["res"] === "MISS") {
         handleChangeTurn();
@@ -68,7 +69,7 @@ function App() {
     }
   };
   useEffect(() => {
-    if (!p1Game.isGameOver() && !computerDemo) setTimeout(handleBot, 400);
+    if (!p1Game.isGameOver() && !computerDemo) setTimeout(handleBot, 100);
     else if (!p1Game.isGameOver() && computerDemo) setTimeout(handleBot, 100);
   });
 
@@ -187,7 +188,8 @@ function App() {
             })}
           </div>
           <div className="playerInfo">
-            <h3>Opponent's grid</h3>
+            <h3>Enemy Waters</h3>
+
           </div>
         </div>
       </div>
