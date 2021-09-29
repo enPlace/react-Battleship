@@ -1,5 +1,5 @@
-import explosion from "./Assets/explosion.svg";
-import splash from "./Assets/splash.svg";
+import explosion from "../Assets/explosion.svg";
+import splash from "../Assets/splash.svg";
 
 const Cell = ({
   item,
