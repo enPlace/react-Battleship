@@ -14,14 +14,14 @@ p1Game.placeShipsRandomly();
 
 let p2Game = gameboard();
 p2Game.placeShipsRandomly();
-console.log(checkerBoardCoords)
+console.log(checkerBoardCoords);
 function App() {
   const [p1Board, setP1Board] = useState(p1Game.getBoard());
   const [p2Board, setP2Board] = useState(p2Game.getBoard());
   const [turn, setTurn] = useState("p1");
   const [winner, setWinner] = useState();
   const [computerDemo, setComputerDemo] = useState(false);
-  const [mode, setMode ] = useState("easy")
+  const [mode, setMode] = useState("hard");
 
   const newGame = () => {
     p1Game = gameboard();
@@ -41,7 +41,9 @@ function App() {
       setTurn(value);
     } else return turn === "p1" ? setTurn("p2") : setTurn("p1");
   };
-
+  const handleToggleMode = () => {
+    mode === "easy" ? setMode("hard") : setMode("easy");
+  };
   const handleBot = () => {
     if (!computerDemo) {
       if (turn === "p2") {
@@ -124,7 +126,7 @@ function App() {
               <button
                 id="shuffle"
                 onClick={() => {
-                  if(turn==="GAME OVER") newGame()
+                  if (turn === "GAME OVER") newGame();
                   setComputerDemo(!computerDemo);
                 }}
               >
@@ -189,7 +191,12 @@ function App() {
           </div>
           <div className="playerInfo">
             <h3>Enemy Waters</h3>
-
+            <button
+              id="shuffle"
+              onClick={() => {
+                handleToggleMode();
+              }}
+            >Computer Mode: {mode}</button>
           </div>
         </div>
       </div>

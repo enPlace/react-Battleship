@@ -74,7 +74,7 @@ const Cell = ({
           onClick={(e) => {
             fireOnOpponent(e);
           }}
-        ></div>
+        >  </div>
       );
     else
       return item[2] ? (

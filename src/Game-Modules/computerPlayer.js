@@ -22,7 +22,7 @@
 //--if there is something in the target stack && it is not sunk, repeat the cycle.
 //--if there is something in the target stack && it is sunk, remove it from the target stack and repeat the previous step
 //--if there is nothing in the target stack, then we randomly fire.
-import { checkerBoardCoords } from "./checkerBoard";
+import { setCheckerBoardCoords } from "./checkerBoard";
 let targetStack = [];
 let hitArray = []; //tracks hit targets
 let surroundingSquares = []; //tracks the surrounding squares for a hit target
@@ -94,6 +94,7 @@ const randomFire = (game) => {
 };
 const randomFireParity = (game) => {
   //fires at the board in a checkerboard pattern, but selects which square to fire at randomly
+  const checkerBoardCoords = setCheckerBoardCoords(game)
   const row = Math.floor(Math.random() * 10);
   const col = Math.floor(Math.random() * 5);
   const target = checkerBoardCoords[row][col]
