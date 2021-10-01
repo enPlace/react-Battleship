@@ -1,7 +1,7 @@
 import Board from "./Board";
 import EnemyBoard from "./EnemyBoard";
 import GameState from "./GameState";
-import ShipKey from "../ShipKey";
+import ShipKey from "./ShipKey";
 
 const GameContainer = ({
   p1Game,
@@ -18,6 +18,7 @@ const GameContainer = ({
   mode,
   handleToggleMode,
   winner,
+  setPlaceShips
 }) => {
   return (
     <div className="gameContainer" style={{ display: "flex" }}>
@@ -41,6 +42,7 @@ const GameContainer = ({
             >
               Shuffle / New Game
             </button>
+            <button onClick={()=>setPlaceShips(true)}>Place Ships</button>
             <button
               id="shuffle"
               onClick={() => {

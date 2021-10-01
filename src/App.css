@@ -72,6 +72,12 @@ h3 {
 
   /* background-color: rgba(64, 128, 224, 0.404); */
 }
+.cell.highlightYellow{
+  border: 1px solid yellowgreen
+}
+.cell.highlightRed{
+  border: 1px solid red
+}
 .s2 {
   background-color: rgba(243, 243, 10, 0.808);
 }

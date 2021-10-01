@@ -2,12 +2,12 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import GameContainer from "./Components/GameContainer";
 import PlaceShips from "./Components/PlaceShips";
-import Header from "./Header";
+import Header from "./Components/Header";
 
 import gameboard from "./Game-Modules/gameboard";
 import computerPlayer from "./Game-Modules/computerPlayer";
 
-let p1Game = gameboard();
+export let p1Game = gameboard();
 p1Game.placeShipsRandomly();
 
 let p2Game = gameboard();
@@ -32,7 +32,13 @@ function App() {
     setTurn("p1");
     setWinner("");
   };
-
+  const togglePlaceShips = () =>{
+    if(!placeShips){
+    p1Game = gameboard()
+    setP1Board(p1Game.getBoard())
+    setPlaceships(true)
+  }else setPlaceships(false)
+  }
   const handleChangeTurn = (value) => {
     if (value) {
       setWinner(turn);
@@ -75,9 +81,16 @@ function App() {
 
   return (
     <div className="App">
-      <Header turn={turn} newGame={newGame}></Header>
+      <Header></Header>
       {placeShips ? (
-        <PlaceShips />
+        <PlaceShips 
+        p1Game={p1Game}
+        p1Board={p1Board}
+        setP1Board={setP1Board}
+        turn = {turn}
+        handleChangeTurn = {handleChangeTurn}
+        togglePlaceShips={togglePlaceShips}
+        />
       ) : (
         <GameContainer
           p1Game={p1Game}
@@ -94,6 +107,7 @@ function App() {
           mode={mode}
           handleToggleMode={handleToggleMode}
           winner={winner}
+          setPlaceShips = {togglePlaceShips}
         />
       )}
 

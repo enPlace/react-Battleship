@@ -1,5 +1,5 @@
-import battleShipIcon from "./Assets/battleship.png"
-const Header = ({turn, newGame}) => {
+import battleShipIcon from "../Assets/battleship.png"
+const Header = () => {
     
 
     

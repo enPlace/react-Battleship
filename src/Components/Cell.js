@@ -11,7 +11,19 @@ const Cell = ({
   turn,
   handleChangeTurn,
   ships,
+  mode,
+  root,
+  setRoot, 
+  highlightRed, 
+  highlightYellow
 }) => {
+
+
+  
+  let highlightClass
+  if(highlightRed||highlightYellow){
+    highlightClass = highlightRed ? "highlightRed" : "highlightYellow"
+  } else {highlightClass = ""}
   const fireOnOpponent = (e) => {
     if (opponent === turn) {
       try {
@@ -36,7 +48,13 @@ const Cell = ({
         key={`${row - 1}, ${col - 1}}`}
         data-row={row - 1}
         data-col={col - 1}
-        className="cell"
+        className={`cell ${highlightClass}`}
+        onMouseEnter = {()=>{
+          if(mode==="place"){
+            setRoot([row-1, col-1])
+            console.log("cell hover")
+          }else {}
+        }}
         onClick={(e) => {
           fireOnOpponent(e);
         }}
@@ -44,14 +62,14 @@ const Cell = ({
     );
   } else if (item === 1) {
     return (
-      <div data-row={row - 1} data-col={col - 1} className="cell">
+      <div data-row={row - 1} data-col={col - 1} className={`cell ${highlightClass}`}>
         <img src={splash} style={{ width: "50%" }} alt="" />
       </div>
     );
   } else if (Array.isArray(item)) {
     if (item[1] !== "X")
       return ships === "show" ? (
-        <div className="cell">
+        <div className={`cell ${highlightClass}`}>
           <div
             style={{ width: "100%", height: "100%", zIndex: "10" }}
             key={`${row}, ${col}}`}
