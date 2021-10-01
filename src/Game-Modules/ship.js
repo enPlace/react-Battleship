@@ -13,13 +13,14 @@ const ship = (num, shipName) => {
     });
     return count === shipArray.length ? true : false;
   };
-  
+
   const hitPosition = (pos) => {
     shipArray[pos] = false;
   };
-  const getShipArray = () =>{
-    return shipArray
-  }
+  const getShipArray = () => {
+    return shipArray;
+  };
+
   return { shipArray, name, hitPosition, isSunk, getShipArray };
 };
 

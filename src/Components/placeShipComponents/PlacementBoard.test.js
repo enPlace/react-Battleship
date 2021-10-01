@@ -10,6 +10,7 @@ const isInShip = (row, col, orientation, root, currentShipLength) => {
       return true;
     }
   }
+  
   if (orientation === "vertical") {
     if (
       col === root[1] &&

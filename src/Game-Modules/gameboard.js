@@ -24,6 +24,13 @@ const gameboard = () => {
   };
 
   const shipPlacements = { s2a: [], s2b: [], s3a: [], s3b: [], s4: [], s5: [] };
+  const removeShip =(shipName) =>{
+    shipPlacements[shipName].forEach(coord=>{
+      board[coord[0]][coord[1]] = 0
+    })
+    shipPlacements[shipName] = []
+  }
+  const getShipPlacements = ()=>shipPlacements
   const getShips = () => ships;
 
   const isGameOver = () => {
@@ -51,6 +58,7 @@ const gameboard = () => {
       //insert an array into the board with the ship name and index
       board[row][col + i] = [ship.name, i, false, "horizontal"];
       shipPlacements[shipName].push([row, col + i]);
+      
     }
   };
 
@@ -140,6 +148,8 @@ const gameboard = () => {
     placeShipHorizontally,
     placeShipVertically,
     placeShipsRandomly,
+    removeShip, 
+    getShipPlacements,
     fire,
     getShips,
     isGameOver,

@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import GameContainer from "./Components/GameContainer";
-import PlaceShips from "./Components/PlaceShips";
+import PlaceShips from "./Components/placeShipComponents/PlaceShips";
 import Header from "./Components/Header";
 
 import gameboard from "./Game-Modules/gameboard";
@@ -9,6 +9,9 @@ import computerPlayer from "./Game-Modules/computerPlayer";
 
 export let p1Game = gameboard();
 p1Game.placeShipsRandomly();
+p1Game.removeShip("s2a")
+console.log(p1Game.getBoard())
+console.log(p1Game.getShipPlacements())
 
 let p2Game = gameboard();
 p2Game.placeShipsRandomly();
@@ -22,6 +25,7 @@ function App() {
   const [mode, setMode] = useState("hard");
   const [placeShips, setPlaceships] = useState(false);
 
+
   const newGame = () => {
     p1Game = gameboard();
     p2Game = gameboard();
@@ -34,6 +38,7 @@ function App() {
   };
   const togglePlaceShips = () =>{
     if(!placeShips){
+      setComputerDemo(false)
     p1Game = gameboard()
     setP1Board(p1Game.getBoard())
     setPlaceships(true)

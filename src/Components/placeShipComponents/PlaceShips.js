@@ -1,7 +1,6 @@
 import PlacementBoard from "./PlacementBoard";
-import ShipKey from "./ShipKey";
 import { useState } from "react";
-import gameboard from "../Game-Modules/gameboard";
+import PlaceShipsKey from "./PlaceShipsKey"
 
 
 const PlaceShips = ({
@@ -13,8 +12,13 @@ const PlaceShips = ({
   togglePlaceShips,
 }) => {
   const [orientation, setOrientation] = useState("horizontal");
-  const [currentShipLength, setCurrentShipLength] = useState(4)
+  
+  const [shipList, setShipList] = useState(p1Game.getShips())
+  const [shipKeys, setShipKeys] = useState(Object.keys(shipList))
+  const [currentShip, setCurrentShip] = useState(shipList[shipKeys.shift()])
+  const [currentShipLength, setCurrentShipLength] = useState(currentShip.shipArray.length)
 
+  
   return (
     <div style={{ height: "100vh" }}>
       Place your ships here
@@ -46,7 +50,7 @@ const PlaceShips = ({
           >
             Orientation: {orientation}
           </button>
-          <ShipKey game={p1Game} justify="left"></ShipKey>
+          <PlaceShipsKey game={p1Game} justify="left"></PlaceShipsKey>
           <button onClick={() => togglePlaceShips()}>Done</button>
         </div>
       </div>

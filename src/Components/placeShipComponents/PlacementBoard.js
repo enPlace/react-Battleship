@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Cell from "./Cell";
+import PlaceShipCell from "../Cell";
 const PlacementBoard = ({ board, setBoard, game, orientation, currentShipLength }) => {
   const [root, setRoot] = useState([0,0]);
   const [shipCanBePlaced, setShipCanBePlaced] = useState(true)
@@ -21,7 +21,7 @@ const PlacementBoard = ({ board, setBoard, game, orientation, currentShipLength 
       let isEmpty;
       if (orientation === "horizontal") {
         isEmpty = checkCoords(row, col + i);
-        console.log("checking coords ", row, ",", col+i)
+
               
       } else if (orientation === "vertical") {
         if(row+i>9) isEmpty = false
@@ -36,8 +36,7 @@ const PlacementBoard = ({ board, setBoard, game, orientation, currentShipLength 
   useEffect(()=>{
     
     setShipCanBePlaced(checkCanBePlaced(root[0], root[1]))
-    console.log("placed?", shipCanBePlaced)
-    console.log(root)
+
   },[root, shipCanBePlaced, orientation])
  
 
@@ -63,14 +62,14 @@ const PlacementBoard = ({ board, setBoard, game, orientation, currentShipLength 
         return array.map((item) => {
           col++;
           return (
-            <Cell
+            <PlaceShipCell
               key={`${row - 1}, ${col - 1}}`}
               item={item}
               row={row}
               col={col}
               root = {root}
               setRoot={setRoot} //moseOver => setRoot to coords
-              highlightYellow = {shipCanBePlaced && isInShip(row-1, col-1) ?true : false}
+              highlightGreen = {shipCanBePlaced && isInShip(row-1, col-1) ?true : false}
               highlightRed = {!shipCanBePlaced && isInShip(row-1, col-1) ?true : false}
               mode = "place"
               game={game}
