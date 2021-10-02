@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const PlaceShipsKey = ({ game, justify }) => {
+const PlaceShipsKey = ({ game, justify, currentShip }) => {
   const [ships, setShips] = useState(game.getShips());
   const shipKeys = Object.keys(ships);
-
-  useEffect(() => {
-    setShips({ ...game.getShips() });
-  }, [game]);
 
   return (
     <div
@@ -20,8 +16,10 @@ const PlaceShipsKey = ({ game, justify }) => {
     >
       {shipKeys.map((key) => {
         const shipArray = ships[key].getShipArray();
-        const isSunk = ships[key].isSunk();
-        const color = !isSunk ? "rgb(116, 140, 248)" : "red";
+        const color =
+          currentShip && currentShip.name === key
+            ? "yellowgreen"
+            : "rgb(116, 140, 248)";
 
         return game.getShipPlacements()[key].length !== 0 ? null : (
           <div
@@ -29,7 +27,7 @@ const PlaceShipsKey = ({ game, justify }) => {
             style={{
               display: "flex",
               margin: "3px",
-              border: "1px solid rgb(116, 140, 248)",
+              border: `1px solid ${color}`,
             }}
             className="shipkey"
           >

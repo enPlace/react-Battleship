@@ -42,6 +42,10 @@ function App() {
     p1Game = gameboard()
     setP1Board(p1Game.getBoard())
     setPlaceships(true)
+
+    p2Game = gameboard()
+    p2Game.placeShipsRandomly()
+    setP2Board(p2Game.getBoard())
   }else setPlaceships(false)
   }
   const handleChangeTurn = (value) => {
@@ -95,6 +99,7 @@ function App() {
         turn = {turn}
         handleChangeTurn = {handleChangeTurn}
         togglePlaceShips={togglePlaceShips}
+        newGame = {newGame}
         />
       ) : (
         <GameContainer

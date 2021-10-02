@@ -6,9 +6,8 @@ const PlaceShips = ({
   p1Game,
   p1Board,
   setP1Board,
-  turn,
-  handleChangeTurn,
   togglePlaceShips,
+  newGame,
 }) => {
   const [orientation, setOrientation] = useState("horizontal");
 
@@ -16,9 +15,7 @@ const PlaceShips = ({
   const keys = Object.keys(shipList);
   const [currentShip, setCurrentShip] = useState(shipList[keys.shift()]);
   const [shipKeys, setShipKeys] = useState([...keys]);
-  const [currentShipLength, setCurrentShipLength] = useState(
-    2
-  );
+  const [currentShipLength, setCurrentShipLength] = useState(2);
 
   const handleNextShip = () => {
     if (currentShip.name === "s5") {
@@ -71,8 +68,17 @@ const PlaceShips = ({
           >
             Orientation: {orientation}
           </button>
-          <PlaceShipsKey game={p1Game} justify="left"></PlaceShipsKey>
-          <button onClick={() => togglePlaceShips()}>Done</button>
+          <PlaceShipsKey game={p1Game} justify="left" currentShip = {currentShip}></PlaceShipsKey>
+          <button
+            onClick={() => {
+              if (currentShipLength !== 1) {
+                newGame();
+              }
+              togglePlaceShips();
+            }}
+          >
+            {currentShipLength===1 ? "Done" : "Cancel"}
+          </button>
         </div>
       </div>
     </div>

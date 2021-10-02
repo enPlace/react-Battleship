@@ -7,15 +7,10 @@ const PlacementBoard = ({
   orientation,
   currentShip,
   currentShipLength,
-  setCurrentShipLength,
   handleNextShip,
 }) => {
   const [root, setRoot] = useState([0, 0]);
   const [shipCanBePlaced, setShipCanBePlaced] = useState(true);
-
-  // mouseOver changes the root
-  //for each cell, we can see if the cell is in range of the ship or not,
-  // and if it can be placed there or not
 
   const checkCoords = (row, col) => {
     //checks an individual coord to see if it is empty
@@ -23,7 +18,7 @@ const PlacementBoard = ({
     return board[row][col] === 0;
   };
   const checkCanBePlaced = (row, col, length = currentShipLength) => {
-    let placement = true;
+    let canBePlaced = true;
     for (let i = 0; i < length; i++) {
       let isEmpty;
       if (orientation === "horizontal") {
@@ -32,27 +27,20 @@ const PlacementBoard = ({
         if (row + i > 9) isEmpty = false;
         else isEmpty = checkCoords(row + i, col);
       }
-      if (!isEmpty) placement = false;
+      if (!isEmpty) canBePlaced = false;
     }
-
-    return placement;
+    return canBePlaced;
   };
   const handlePlaceShip = () => {
-    if (
-      orientation === "horizontal" &&
-      shipCanBePlaced &&
-      currentShipLength !== 1
-    ) {
-      game.placeShipHorizontally(root[0], root[1], currentShip.name);
-      handleNextShip();
-    } else if (
-      orientation === "vertical" &&
-      shipCanBePlaced &&
-      currentShipLength !== 1
-    ) {
-      game.placeShipVertically(root[0], root[1], currentShip.name);
-      handleNextShip();
-    }
+    try {
+      if (orientation === "horizontal") {
+        game.placeShipHorizontally(root[0], root[1], currentShip.name);
+        handleNextShip();
+      } else if (orientation === "vertical") {
+        game.placeShipVertically(root[0], root[1], currentShip.name);
+        handleNextShip();
+      }
+    } catch {}
   };
   useEffect(() => {
     setShipCanBePlaced(checkCanBePlaced(root[0], root[1]));
@@ -101,7 +89,6 @@ const PlacementBoard = ({
               highlightRed={
                 !shipCanBePlaced && isInShip(row - 1, col - 1) ? true : false
               }
-              
               game={game}
               setBoard={setBoard}
               ships="show"
