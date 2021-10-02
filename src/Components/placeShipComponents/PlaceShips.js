@@ -8,15 +8,24 @@ const PlaceShips = ({
   setP1Board,
   togglePlaceShips,
   newGame,
+  resetP1Game
 }) => {
   const [orientation, setOrientation] = useState("horizontal");
 
-  const shipList = p1Game.getShips();
-  const keys = Object.keys(shipList);
+  let shipList = p1Game.getShips();
+  let keys = Object.keys(shipList);
   const [currentShip, setCurrentShip] = useState(shipList[keys.shift()]);
   const [shipKeys, setShipKeys] = useState([...keys]);
   const [currentShipLength, setCurrentShipLength] = useState(2);
 
+  const handleReset = () => {
+   resetP1Game()
+    shipList = p1Game.getShips()
+    keys = Object.keys(shipList)
+    setCurrentShip(shipList[keys.shift()])
+    setShipKeys(([...keys]))
+    setCurrentShipLength(2)
+  };
   const handleNextShip = () => {
     if (currentShip.name === "s5") {
       setShipKeys(null);
@@ -68,17 +77,34 @@ const PlaceShips = ({
           >
             Orientation: {orientation}
           </button>
-          <PlaceShipsKey game={p1Game} justify="left" currentShip = {currentShip}></PlaceShipsKey>
-          <button
-            onClick={() => {
-              if (currentShipLength !== 1) {
-                newGame();
-              }
-              togglePlaceShips();
-            }}
+
+          <PlaceShipsKey
+            game={p1Game}
+            justify="left"
+            currentShip={currentShip}
+          ></PlaceShipsKey>
+          <div
+            className="bottomButtons"
+            style={{ display: "flex", flexDirection: "column" }}
           >
-            {currentShipLength===1 ? "Done" : "Cancel"}
-          </button>
+            <button
+              onClick={() => {
+                handleReset();
+              }}
+            >
+              Reset
+            </button>
+            <button
+              onClick={() => {
+                if (currentShipLength !== 1) {
+                  newGame();
+                }
+                togglePlaceShips();
+              }}
+            >
+              {currentShipLength === 1 ? "Done" : "Cancel"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

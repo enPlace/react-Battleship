@@ -25,7 +25,10 @@ function App() {
   const [mode, setMode] = useState("hard");
   const [placeShips, setPlaceships] = useState(false);
 
-
+  const resetP1Game = () =>{
+    p1Game = gameboard();
+    setP1Board(p1Game.getBoard());
+  }
   const newGame = () => {
     p1Game = gameboard();
     p2Game = gameboard();
@@ -39,8 +42,7 @@ function App() {
   const togglePlaceShips = () =>{
     if(!placeShips){
       setComputerDemo(false)
-    p1Game = gameboard()
-    setP1Board(p1Game.getBoard())
+    resetP1Game()
     setPlaceships(true)
 
     p2Game = gameboard()
@@ -100,6 +102,7 @@ function App() {
         handleChangeTurn = {handleChangeTurn}
         togglePlaceShips={togglePlaceShips}
         newGame = {newGame}
+        resetP1Game = {resetP1Game}
         />
       ) : (
         <GameContainer
