@@ -34,15 +34,15 @@ const GameContainer = ({
         <div className="playerInfo"style = {{overflow:"hidden"}}>
           <h3>Your grid</h3>
           <div className="buttons">
-            <button
+           {!computerDemo? <button
               id="shuffle"
               onClick={() => {
                 newGame();
               }}
             >
               Shuffle / New Game
-            </button>
-            <button onClick={()=>setPlaceShips(true)}>Place Ships</button>
+            </button>:null}
+            {!computerDemo?<button onClick={()=>setPlaceShips(true)}>Place Ships</button>:null}
             <button
               id="shuffle"
               onClick={() => {
