@@ -142,6 +142,9 @@ button{
   border-radius: 710px;
   background-color: transparent;
   margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 button:hover{
   cursor: pointer;
