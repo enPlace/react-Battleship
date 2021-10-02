@@ -33,7 +33,7 @@ const GameContainer = ({
 
         <div className="playerInfo"style = {{overflow:"hidden"}}>
           <h3>Your grid</h3>
-          <div className="buttons"  >
+          <div className="buttons">
             <button
               id="shuffle"
               onClick={() => {
@@ -101,7 +101,7 @@ const GameContainer = ({
           handleChangeTurn={handleChangeTurn}
         ></EnemyBoard>
 
-        <div className="playerInfo">
+        <div className="playerInfo" style = {{display: "flex", flexDirection:"column", alignItems:"center"}}>
           <h3>Enemy Waters</h3>
           <button
             id="shuffle"

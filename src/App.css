@@ -134,6 +134,8 @@ align-items: left;
 .playerInfo .buttons{
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 button{
   font-size: 22px;
@@ -142,15 +144,19 @@ button{
   border-radius: 710px;
   background-color: transparent;
   margin: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+ 
+
 }
 button:hover{
   cursor: pointer;
   
 }
 .playerInfo button{
-  font-size: 16px;
-  height: 25px;
+  font-size: 15px;
+  height: 28px;
+  padding: 5px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

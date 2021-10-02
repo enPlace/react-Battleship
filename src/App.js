@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import GameContainer from "./Components/GameContainer";
 import PlaceShips from "./Components/placeShipComponents/PlaceShips";
 import Header from "./Components/Header";
-
+import explosion from "./Assets/explosion.svg"
+import splash from "./Assets/splash.svg"
 import gameboard from "./Game-Modules/gameboard";
 import computerPlayer from "./Game-Modules/computerPlayer";
 
@@ -127,7 +128,10 @@ function App() {
           setPlaceShips={togglePlaceShips}
         />
       )}
-
+      <div>
+        <img src={splash} alt="" style = {{width: "0px"}}/>
+        <img src={explosion} alt="" style = {{width: "0px"}} />
+      </div>
       {/* <Footer></Footer> */}
     </div>
   );
