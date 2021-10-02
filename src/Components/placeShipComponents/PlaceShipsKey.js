@@ -22,8 +22,7 @@ const PlaceShipsKey = ({ game, justify }) => {
         const shipArray = ships[key].getShipArray();
         const isSunk = ships[key].isSunk();
         const color = !isSunk ? "rgb(116, 140, 248)" : "red";
-        console.log(key)
-        console.log(game.getShipPlacements()[key].length ===0)
+
         return game.getShipPlacements()[key].length !== 0 ? null : (
           <div
             key={key}
