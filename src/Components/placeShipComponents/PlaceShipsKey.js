@@ -1,7 +1,7 @@
-import { useState } from "react";
+
 
 const PlaceShipsKey = ({ game, justify, currentShip }) => {
-  const [ships, setShips] = useState(game.getShips());
+  const ships = game.getShips();
   const shipKeys = Object.keys(ships);
 
   return (
@@ -36,9 +36,9 @@ const PlaceShipsKey = ({ game, justify, currentShip }) => {
                 <div
                   key={Math.floor(Math.random() * 100000000)}
                   style={{
-                    width: "5px",
-                    height: "5px",
-                    margin: "1px 2px 1px 2px",
+                    width: "8px",
+                    height: "8px",
+                    margin: "2px 2px 2px 2px",
                     backgroundColor: `${color}`,
                   }}
                 ></div>

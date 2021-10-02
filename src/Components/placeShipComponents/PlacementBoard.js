@@ -8,10 +8,10 @@ const PlacementBoard = ({
   currentShip,
   currentShipLength,
   handleNextShip,
-  removeShipFromBoard 
+  removeShipFromBoard,
 }) => {
-  const [root, setRoot] = useState([0, 0]);
-  const [shipCanBePlaced, setShipCanBePlaced] = useState(true);
+  const [root, setRoot] = useState(false);
+  const [shipCanBePlaced, setShipCanBePlaced] = useState(false);
 
   const checkCoords = (row, col) => {
     //checks an individual coord to see if it is empty
@@ -44,8 +44,10 @@ const PlacementBoard = ({
     } catch {}
   };
   useEffect(() => {
-    setShipCanBePlaced(checkCanBePlaced(root[0], root[1]));
-  }, [root, shipCanBePlaced, orientation]);
+    if (root) {
+      setShipCanBePlaced(checkCanBePlaced(root[0], root[1]));
+    }
+  }, );
 
   const isInShip = (row, col) => {
     if (orientation === "horizontal") {
@@ -71,7 +73,7 @@ const PlacementBoard = ({
 
   let row = 0;
   return (
-    <div className="board" style={{}}>
+    <div className="board" onMouseLeave ={()=>setRoot(false)}>
       {board.map((array) => {
         let col = 0;
         row++;
@@ -94,7 +96,7 @@ const PlacementBoard = ({
               setBoard={setBoard}
               ships="show"
               handlePlaceShip={handlePlaceShip}
-              removeShipFromBoard ={removeShipFromBoard}
+              removeShipFromBoard={removeShipFromBoard}
             />
           );
         });

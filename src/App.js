@@ -90,7 +90,7 @@ function App() {
     }
   };
   useEffect(() => {
-    if (!p1Game.isGameOver() && !computerDemo) setTimeout(handleBot, 100);
+    if (!p1Game.isGameOver() && !computerDemo) setTimeout(handleBot, 300);
     else if (!p1Game.isGameOver() && computerDemo) setTimeout(handleBot, 100);
   });
 

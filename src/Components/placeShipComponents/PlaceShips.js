@@ -84,7 +84,7 @@ const PlaceShips = ({
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            width: "175px",
+            width: "250px",
           }}
         >
           <div className="topSection" style= {{display:"flex", flexDirection: "column", alignItems:"center", width: "100%"}}>
@@ -98,7 +98,7 @@ const PlaceShips = ({
             >
               Orientation: {orientation}
             </button>
-            <div style={{ color: "white", fontSize: "10px", width: "150px" }}>
+            <div style={{ color: "white", fontSize: "14px", width: "220px" }}>
               <p>Click on a square to place a ship</p>
               <p>
                 To move a ship after placing it on the board, click on the ship again

@@ -22,7 +22,7 @@ const GameContainer = ({
 }) => {
   return (
     <div className="gameContainer" style={{ display: "flex" }}>
-      <div className="playerGame">
+      <div className="playerGame" style = {{margin:"0", width: "450px"}}>
         <Board
           game={p1Game}
           board={p1Board}
@@ -31,9 +31,9 @@ const GameContainer = ({
           handleChangeTurn={handleChangeTurn}
         ></Board>
 
-        <div className="playerInfo">
+        <div className="playerInfo"style = {{overflow:"hidden"}}>
           <h3>Your grid</h3>
-          <div className="buttons">
+          <div className="buttons"  >
             <button
               id="shuffle"
               onClick={() => {
@@ -55,7 +55,7 @@ const GameContainer = ({
           </div>
         </div>
       </div>
-      <div className="middleInfo">
+      <div className="middleInfo" >
         <GameState
           turn={turn}
           winner={winner}
@@ -68,7 +68,29 @@ const GameContainer = ({
         >
           <ShipKey game={p1Game} justify="left"></ShipKey>
           <ShipKey game={p2Game} justify="right"></ShipKey>
+          
         </div>
+       {/*  <div className="buttons" style = {{display:"flex", flexDirection:"column", marginTop: "40px" }}>
+        <button
+            id="shuffle"
+            onClick={() => {
+              handleToggleMode();
+            }}
+          >
+            Computer Mode: {mode}
+          </button>
+        <button
+              id="shuffle"
+              onClick={() => {
+                if (turn === "GAME OVER") newGame();
+                setComputerDemo(!computerDemo);
+              }}
+            >
+              {!computerDemo ? "Run computer demo" : "Pause demo"}
+            </button>
+        </div> */}
+        
+          
       </div>
       <div className="playerGame">
         <EnemyBoard

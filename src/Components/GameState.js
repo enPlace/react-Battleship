@@ -13,8 +13,8 @@ const GameState = ({ turn, newGame, winner, computerDemo }) => {
 
  
   return (
-    <div className = "gameState" style = {{margin: "20px", width: "100px"}}  >
-      {!computerDemo? <p style = {{fontSize: "12px"}}>{gameState}</p>: null}
+    <div className = "gameState" style = {{margin: "30px", width: "150px"}}  >
+      {!computerDemo? <p style = {{fontSize: "17px"}}>{gameState}</p>: null}
       
       {playAgain}
     </div>

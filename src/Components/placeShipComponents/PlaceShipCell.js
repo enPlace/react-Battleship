@@ -32,7 +32,7 @@ const PlaceShipCell = ({
     );
   } else if (Array.isArray(item)) {
     return (
-      <div className={`cell ${highlightClass}`}>
+      <div className={`cell ${highlightClass} pointer`}>
         <div
           style={{ width: "100%", height: "100%", zIndex: "10" }}
           key={`${row}, ${col}}`}
@@ -42,7 +42,7 @@ const PlaceShipCell = ({
             item[1] === 0 ? "start" : ""
           } ${item[0][1] - 1 === item[1] ? "end" : ""} }`}
           onMouseEnter={() => {
-            setRoot([row - 1, col - 1]);
+            setRoot(false);
           }}
           onClick={()=>{
             removeShipFromBoard(item[0])

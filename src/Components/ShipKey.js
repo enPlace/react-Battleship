@@ -11,6 +11,7 @@ const ShipKey = ({ game, justify }) => {
   return (
     <div
       style={{
+        margin:"10px",
         width: "51px",
         display: "flex",
         flexWrap: "wrap",
@@ -37,9 +38,9 @@ const ShipKey = ({ game, justify }) => {
                 <div
                   key={Math.floor(Math.random() * 100000000)}
                   style={{
-                    width: "5px",
-                    height: "5px",
-                    margin: "1px 2px 1px 2px",
+                    width: "8px",
+                    height: "8px",
+                    margin: "2px 2px 2px 2px",
                     backgroundColor: `${color}`,
                   }}
                 ></div>
