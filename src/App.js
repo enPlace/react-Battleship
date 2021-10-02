@@ -10,7 +10,7 @@ import computerPlayer from "./Game-Modules/computerPlayer";
 
 export let p1Game = gameboard();
 p1Game.placeShipsRandomly();
-p1Game.removeShip("s2a");
+
 console.log(p1Game.getBoard());
 console.log(p1Game.getShipPlacements());
 
