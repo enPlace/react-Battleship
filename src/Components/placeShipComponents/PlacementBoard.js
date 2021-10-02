@@ -8,6 +8,7 @@ const PlacementBoard = ({
   currentShip,
   currentShipLength,
   handleNextShip,
+  removeShipFromBoard 
 }) => {
   const [root, setRoot] = useState([0, 0]);
   const [shipCanBePlaced, setShipCanBePlaced] = useState(true);
@@ -93,6 +94,7 @@ const PlacementBoard = ({
               setBoard={setBoard}
               ships="show"
               handlePlaceShip={handlePlaceShip}
+              removeShipFromBoard ={removeShipFromBoard}
             />
           );
         });

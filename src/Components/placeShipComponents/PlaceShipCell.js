@@ -2,11 +2,11 @@ const PlaceShipCell = ({
   item,
   row,
   col,
-  mode,
   setRoot,
   highlightRed,
   highlightGreen,
   handlePlaceShip,
+  removeShipFromBoard
 }) => {
   let highlightClass;
   if (highlightRed || highlightGreen) {
@@ -43,6 +43,9 @@ const PlaceShipCell = ({
           } ${item[0][1] - 1 === item[1] ? "end" : ""} }`}
           onMouseEnter={() => {
             setRoot([row - 1, col - 1]);
+          }}
+          onClick={()=>{
+            removeShipFromBoard(item[0])
           }}
         ></div>
       </div>

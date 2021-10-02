@@ -9,9 +9,9 @@ import computerPlayer from "./Game-Modules/computerPlayer";
 
 export let p1Game = gameboard();
 p1Game.placeShipsRandomly();
-p1Game.removeShip("s2a")
-console.log(p1Game.getBoard())
-console.log(p1Game.getShipPlacements())
+p1Game.removeShip("s2a");
+console.log(p1Game.getBoard());
+console.log(p1Game.getShipPlacements());
 
 let p2Game = gameboard();
 p2Game.placeShipsRandomly();
@@ -25,10 +25,10 @@ function App() {
   const [mode, setMode] = useState("hard");
   const [placeShips, setPlaceships] = useState(false);
 
-  const resetP1Game = () =>{
+  const resetP1Game = () => {
     p1Game = gameboard();
     setP1Board(p1Game.getBoard());
-  }
+  };
   const newGame = () => {
     p1Game = gameboard();
     p2Game = gameboard();
@@ -39,17 +39,21 @@ function App() {
     setTurn("p1");
     setWinner("");
   };
-  const togglePlaceShips = () =>{
-    if(!placeShips){
-      setComputerDemo(false)
-    resetP1Game()
-    setPlaceships(true)
+  const togglePlaceShips = () => {
+    if (!placeShips) {
+      setComputerDemo(false);
+      resetP1Game();
+      setPlaceships(true);
 
-    p2Game = gameboard()
-    p2Game.placeShipsRandomly()
-    setP2Board(p2Game.getBoard())
-  }else setPlaceships(false)
-  }
+      p2Game = gameboard();
+      p2Game.placeShipsRandomly();
+      setP2Board(p2Game.getBoard());
+    } else {
+      setTurn("p1");
+      setWinner("");
+      setPlaceships(false);
+    }
+  };
   const handleChangeTurn = (value) => {
     if (value) {
       setWinner(turn);
@@ -94,15 +98,15 @@ function App() {
     <div className="App">
       <Header></Header>
       {placeShips ? (
-        <PlaceShips 
-        p1Game={p1Game}
-        p1Board={p1Board}
-        setP1Board={setP1Board}
-        turn = {turn}
-        handleChangeTurn = {handleChangeTurn}
-        togglePlaceShips={togglePlaceShips}
-        newGame = {newGame}
-        resetP1Game = {resetP1Game}
+        <PlaceShips
+          p1Game={p1Game}
+          p1Board={p1Board}
+          setP1Board={setP1Board}
+          turn={turn}
+          handleChangeTurn={handleChangeTurn}
+          togglePlaceShips={togglePlaceShips}
+          newGame={newGame}
+          resetP1Game={resetP1Game}
         />
       ) : (
         <GameContainer
@@ -120,7 +124,7 @@ function App() {
           mode={mode}
           handleToggleMode={handleToggleMode}
           winner={winner}
-          setPlaceShips = {togglePlaceShips}
+          setPlaceShips={togglePlaceShips}
         />
       )}
 
