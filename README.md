@@ -55,11 +55,12 @@ So what happens in phases 2 and 3? Ideally, these are the steps:
   
   1. Generate the four surrounding squares of the hit target
   2. Randomly fire at those squares
+  3. Once another square is hit, determine an orientation (vertical or horizontal)
   
   **Sink**
   
-  4. Once another square is hit, determine an orientation (vertical or horizontal) 
-  5. Fire along a given axis until we get a sunk ship
+  4.   Fire along a given axis until we get a sunk ship
+ 
 
 However, ships can be placed next to each other in various ways, which means that: 
   - getting a sunk ship does not always mean that this phase is finished. 
