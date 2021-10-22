@@ -61,6 +61,9 @@ However, ships can be placed next to each other in various ways, which means tha
   
 Consider the following examples: 
 
+<img src = "./bsScenario.jpeg" alt = "">
+<img src = "./bsScenario2.jpeg" alt = "">
+
 ```js
 const randomFireCheckerboard = (game) => {
   //fires at the board in a checkerboard pattern, but selects which square to fire at randomly
