@@ -47,6 +47,32 @@ We can then randomly fire at these coordinates and greatly increase our likeliho
 We simply generate two random coordinates in our checkerboard, and then fire at the main board with the coordinates that we get from the checkerboard. If we can't fire there (because it has already been attempted before), we'll get an error and call the function again. Once we get a hit, we move to phase 2, which is the "hone in" phase-- trying to find the orientation of the ship. 
 
 
+```js
+const randomFireCheckerboard = (game) => {
+
+  const checkerBoardCoords = setCheckerBoardCoords(game)
+  const row = Math.floor(Math.random() * 10);
+  const col = Math.floor(Math.random() * checkerBoardCoords[0].length+1);
+  const target = checkerBoardCoords[row][col]
+
+  try {
+    const res = game.fire(target[0], target[1]);
+    move = { res: res, board: game.getBoard() };
+    if (Array.isArray(res)) {
+      //it's a hit, add to hitArray and note surrounding squares. This moves the algorithm into phase two, 
+      //which will be talked about below
+      hitArray.push([target[0], target[1]]);
+      generateSurroundingSquares(target[0], target[1]);
+    }
+  } catch {
+    //if error is returned, try again
+    randomFireCheckerboard(game);
+  }
+};
+
+```
+
+
 ## Phases 2 and 3: Hone In and Sink
 
 So what happens in phases 2 and 3? Ideally, these are the steps: 
@@ -77,29 +103,6 @@ Consider the following examples:
 ### Using stacks to hone in on all ships
 
 
-```js
-const randomFireCheckerboard = (game) => {
-  //fires at the board in a checkerboard pattern, but selects which square to fire at randomly
-  const checkerBoardCoords = setCheckerBoardCoords(game)
-  const row = Math.floor(Math.random() * 10);
-  const col = Math.floor(Math.random() * checkerBoardCoords[0].length+1);
-  const target = checkerBoardCoords[row][col]
-
-  try {
-    const res = game.fire(target[0], target[1]);
-    move = { res: res, board: game.getBoard() };
-    if (Array.isArray(res)) {
-      //it's a hit, add to hitArray and note surrounding squares
-      hitArray.push([target[0], target[1]]);
-      generateSurroundingSquares(target[0], target[1]);
-    }
-  } catch {
-    //if error is returned, try again
-    randomFireCheckerboard(game);
-  }
-};
-
-```
 
 
 
