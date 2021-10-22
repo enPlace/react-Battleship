@@ -92,13 +92,14 @@ const randomFire = (game) => {
     }
   }
 };
-const randomFireParity = (game) => {
+const randomFireCheckerboard = (game) => {
   //fires at the board in a checkerboard pattern, but selects which square to fire at randomly
   const checkerBoardCoords = setCheckerBoardCoords(game)
+  console.log(checkerBoardCoords)
   const row = Math.floor(Math.random() * 10);
-  const col = Math.floor(Math.random() * 5);
+  const col = Math.floor(Math.random() * checkerBoardCoords[0].length+1);
   const target = checkerBoardCoords[row][col]
-  console.log(target)
+
   try {
     const res = game.fire(target[0], target[1]);
     move = { res: res, board: game.getBoard() };
@@ -112,13 +113,13 @@ const randomFireParity = (game) => {
     }
   } catch {
     //if error is returned, try again
-    randomFireParity(game);
+    randomFireCheckerboard(game);
   }
 };
 
 const findTarget = (game) =>{
   if(difficulty==="easy") randomFire(game)
-  if(difficulty ==="hard") randomFireParity(game)
+  if(difficulty ==="hard") randomFireCheckerboard(game)
 }
 
 const honeIn = (game) => {
