@@ -18,7 +18,7 @@
 
 (insert checkerboard image here) 
 
-If both of the smallest ships are hit early, the strategy then becomes to fire at every third square. If the smallest ship left is four units long, then we fire at every four squares. And so on. 
+If both of the smallest ships are hit early, the strategy then becomes to fire at every third square. If the smallest ship left is four units long, then we fire at every fourth square. And so on. 
 
 We can generate a dynamic checkerboard based off of the length of the smallest ship with a nested loop to create a subset of checkerboard coordinates, selecting every nth square where n = the length of the smallest ship - 1:
 ```js
