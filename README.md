@@ -63,8 +63,8 @@ However, ships can be placed next to each other in various ways, which means tha
   
 Consider the following examples: 
 
-1. <img src = "./bsScenario.jpeg" alt = "" width = "300">
-2. <img src = "./bsScenario2.jpeg" alt = "" width = "300">
+1. <img src = "./bsScenario.jpeg" alt = "" width = "250">
+2. <img src = "./bsScenario2.jpeg" alt = "" width = "250">
 
 In example 1, we had seemingly found an axis, but upon not simking anything, a human would realize that there are three parallel ships to attack, and that the three hit points are actually  _each_ a starting point for the hone in phase. 
 In example 2, we _do_ get a sunk ship, but there is an extra hit square that hasn't been sunk. Again, a human would realize that this is another ship to hone in on and try to sink. 
