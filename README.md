@@ -50,10 +50,14 @@ We simply generate two random coordinates in our checkerboard, and then fire at 
 ## Phases 2 and 3: Hone In and Sink
 
 So what happens in phases 2 and 3? Ideally, these are the steps: 
+
   **Hone In**
+  
   1. Generate the four surrounding squares of the hit target
   2. Randomly fire at those squares
+  
   **Sink**
+  
   4. Once another square is hit, determine an orientation (vertical or horizontal) 
   5. Fire along a given axis until we get a sunk ship
 
