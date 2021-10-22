@@ -47,13 +47,15 @@ We can then randomly fire at these coordinates and greatly increase our likeliho
 We simply generate two random coordinates in our checkerboard, and then fire at the main board with the coordinates that we get from the checkerboard. If we can't fire there (because it has already been attempted before), we'll get an error and call the function again. Once we get a hit, we move to phase 2, which is the "hone in" phase-- trying to find the orientation of the ship. 
 
 
-## Phase 2: Hone In
+## Phases 2 and 3: Hone In and Sink
 
-So what happens in phase 2? Ideally, these are the steps: 
+So what happens in phases 2 and 3? Ideally, these are the steps: 
+  **Hone In**
   1. Generate the four surrounding squares of the hit target
   2. Randomly fire at those squares
-  3. Once another square is hit, determine an orientation (vertical or horizontal) 
-  4. Fire along a given axis until we get a sunk ship
+  **Sink**
+  4. Once another square is hit, determine an orientation (vertical or horizontal) 
+  5. Fire along a given axis until we get a sunk ship
 
 However, ships can be placed next to each other in various ways, which means that: 
   - getting a sunk ship does not always mean that this phase is finished. 
@@ -61,8 +63,12 @@ However, ships can be placed next to each other in various ways, which means tha
   
 Consider the following examples: 
 
-<img src = "./bsScenario.jpeg" alt = "" width = "200">
-<img src = "./bsScenario2.jpeg" alt = "" width = "200">
+1. <img src = "./bsScenario.jpeg" alt = "" width = "200">
+2. <img src = "./bsScenario2.jpeg" alt = "" width = "200">
+
+In example 1, we had seemingly found an axis, but upon not simking anything, a human would realize that there are three parallel ships to attack, and that the three hit points are actually  _each_ a starting point for the hone in phase. 
+In example 2, we _do_ get a sunk ship, but there is an extra hit square that hasn't been sunk. Again, a human would realize that this is another ship to hone in on and try to sink. 
+
 
 ```js
 const randomFireCheckerboard = (game) => {
