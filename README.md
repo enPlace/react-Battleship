@@ -117,7 +117,7 @@ let hitArray = [];
 #### So, To Summarize:
 At the beginning of every call to the computer player, it will check first-- is there anything in the hitArray?
 - if there is only one thing in the hit array, a ship has been hit, but an orientation has not be determined. Attack the surrounding squares.
-- if there are two or more things in the hit array, we have a ship that we are trying to attack
+- if there are two or more things in the hit array, we have an orientation and are attacking along an axis
 - if there is nothing in the hit array, we check the target stack
 - if there is something in the target stack && it is not sunk, repeat the cycle.
 - if there is something in the target stack && it is sunk, remove it from the target stack and repeat the previous step
