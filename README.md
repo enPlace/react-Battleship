@@ -109,13 +109,12 @@ let hitArray = [];
 ### Managing phases with hitArray and targetStack
 #### The hitArray
 - The hitArray keeps track of the current ship being targeted, and is responsible for the attack on a single ship. If there is only one coordinate in this array, we are in the "hone in" phase and attack the surrounding squares. 
-- If there are multiple coordinates in the hitArray, we are in the "sink" phase-- we have an orientation and attack along the orientation. If, at the end of the this cycle there are still coordinates in the hitArray that have not been sunk, those are pushed to the targetStack, and a new hone in phase is started for each of the coordinates in the stack. 
+- If there are multiple coordinates in the hitArray, we are in the "sink" phase-- we have an orientation and attack along an axis. If, at the end of the this cycle there are still coordinates in the hitArray that have not been sunk, those are pushed to the targetStack, and a new hone in phase is started for each of the coordinates in the stack. 
 #### The targetStack
 - The targetStack keeps track of any hit targets that have not been sunk. If the hitArray is empty and there is something in the target stack, we shift the first coordinate from the targetStack into the hitArray.
 #### Hunting Phase
 - If there is nothing in either the hitArray or the targetStack, we are in the "hunting" phase, trying to find a ship. 
-
-And lets say that we are starting a new game, so we know these two arrays are empty. Here is an overview of the steps the algorithm will take: 
+#### So, To Summarize:
 At the beginning of every call to the computer player, it will check first-- is there anything in the hitArray?
 - if there is only one thing in the hit array, a ship has been hit, but an orientation has not be determined. Attack the surrounding squares.
 - if there are two or more things in the hit array, we have a ship that we are trying to attack
