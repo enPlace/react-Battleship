@@ -1,27 +1,19 @@
-//new idea is to have a stack of targets to track
-//the normal mode of operation at this point is to try and sink a ship
-//however if the hitArray still has unsunk ship targets, we should add those to the stack
-//the first thing we should do is check to see if the hit array is empty.
-//then, if it is empty, check the target stack.
-//if the target stack is empty, randomly fire until you find a hit
-//then add that to the hitArray. create surrounding squares.
-//then check the surrounding squares. Once you find a hit, there are two options.
-//1.1 keep going until you get a sunk ship. Now, however, you'll need to check to make sure all of the
-//      other targets in the hit array are sunk.
-// -- 1.2 if any targets are not sunk, you want to now add those to the targetArray
-// -- 1.3 if they are all sunk, you're good, clear the hit array
-// 2.1 keep going until the surrounding squares on an axis are not possible to hit. If this is the case, you've got some
-//parallel ships.
-// -- 2.2 you push everything in the hitAray to the stack.
+/* At the beginning of every call to the computer player, it will check first-- is there anything in the hitArray?
+- if there is only one thing in the hit array, a ship has been hit, but an orientation has not be determined. Attack the surrounding squares.
+- if there are two or more things in the hit array, we have an orientation and are attacking along an axis
+- if there is nothing in the hit array, we check the target stack
+- if there is something in the target stack && it is not sunk, shift the coordinate to the hitArray and hone in
+- if there is something in the target stack && it is sunk, remove it from the target stack and move to the next coordinate
+- if there is nothing in the target stack && nothing in the hitArray, then we randomly fire. Once we hit a ship, we push those coordinates to the hitArray
+--------------------------------------
+At the bottom of this module is the computerPlayer function which controlls this process and is what is exported from this 
+module. It returns a "move," which is the response from the player's gameboard, and the new board state. 
+  
+move = { res: res, board: game.getBoard() }
 
-//after both 1 and two, you want to clear the hit array.
-//at the beginning of every call to the computer player, it will check first-- is there anything in the hitArray?
-//--if there is only one thing in the hit array, we need to look at the surrounding areas.
-//--if there are two or more things in the hit array, we have a ship that we are trying to attack
-//--if there is nothing in the hit array, we check the target stack
-//--if there is something in the target stack && it is not sunk, repeat the cycle.
-//--if there is something in the target stack && it is sunk, remove it from the target stack and repeat the previous step
-//--if there is nothing in the target stack, then we randomly fire.
+*/
+
+
 import { setCheckerBoardCoords } from "./checkerBoard";
 let targetStack = [];
 let hitArray = []; //tracks hit targets
@@ -31,7 +23,7 @@ let orientation; // to set an orientation once the computer finds two parallel h
 let difficulty; // to set the difficulty level of the computer player
 
 const sunkShip = () => {
-  // fires after a ship has been sunk
+  // to be called after a ship has been sunk
   hitArray = [];
   surroundingSquares = [];
   orientation = false;
@@ -56,24 +48,24 @@ export const checkSurroundingSquares = (row, col, game) => {
   const checkArray = [left, right, top, bottom];
   let sum = 0;
   checkArray.forEach((square) => {
-    const hasBeenMissed = square === 1;
-    const hasBeenHit = Array.isArray(square) && square[1] === "X";
+    const hasBeenMissed = square === 1; // a 1 on the game board signifies a miss
+    const hasBeenHit = Array.isArray(square) && square[1] === "X"; //"X" signifies a hit
 
     if (square === false || hasBeenMissed || hasBeenHit) sum++;
   });
 
-  return { checkArray, sum }; //if sum is 4, there are no surrounding available squares to fire
+  return { checkArray, sum }; //if sum is 4, no surrounding square can be fired on
 };
 
 
 const randomFire = (game) => {
-  //fires at randomly generated position
+  //Fires at randomly generated position. Called in easy mode.
   const row = Math.floor(Math.random() * 10);
   const col = Math.floor(Math.random() * 10);
 
   const enclosed = checkSurroundingSquares(row, col, game).sum === 4;
-  if (enclosed) {
-    randomFire(game);
+  if (enclosed) { //don't fire on this coord b/c there cannot be a ship here, try again
+    randomFire(game); 
   } else {
     try {
       const res = game.fire(row, col);
@@ -93,13 +85,11 @@ const randomFire = (game) => {
   }
 };
 const randomFireCheckerboard = (game) => {
-  //fires at the board in a checkerboard pattern, but selects which square to fire at randomly
+  //fires at the board in a checkerboard pattern, randomly selects coord from the checkerboard 
   const checkerBoardCoords = setCheckerBoardCoords(game)
-  console.log(checkerBoardCoords)
   const row = Math.floor(Math.random() * 10);
   const col = Math.floor(Math.random() * checkerBoardCoords[0].length);
   const target = checkerBoardCoords[row][col]
-
   try {
     const res = game.fire(target[0], target[1]);
     move = { res: res, board: game.getBoard() };
@@ -123,10 +113,11 @@ const findTarget = (game) =>{
 }
 
 const honeIn = (game) => {
-  //searches for the ship in the surrounding squares of the initial hit
+  //attacks surrounding squares of the initial hit to find the orientation
 
   const canFire =
-    //first, check the surrounding squares to make sure that it is possible to hit.
+    //first, check the surrounding squares to make sure that it is possible to fire on at least one. Otherwise, 
+    //we could get stuck in an infinite loop.
     checkSurroundingSquares(hitArray[0][0], hitArray[0][1], game).sum !== 4;
   if (!canFire) {
     hitArray = [];
@@ -136,8 +127,7 @@ const honeIn = (game) => {
     } else findTarget(game);
   } else {
     //can fire at atleast one of the surrounding squares
-    const randomIndex = Math.floor(Math.random() * surroundingSquares.length);
-    const target = surroundingSquares[randomIndex];
+    const target = surroundingSquares[Math.floor(Math.random() * surroundingSquares.length)];
 
     try {
       const board = game.getBoard();

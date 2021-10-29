@@ -8,13 +8,13 @@
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pretty straightforward right? Well, there are some other things that we want to take into consideration when thinking through this algorithm if we want to make it an effective one-- that is, one that at least isn’t super easy to beat, and mimmicks how humans play the game. </p>
 
 ## Phase 1: Hunt for the ship
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The first thing that we might note about phase 1 as stated above is that when we play the game of battleship, we really don’t just fire randomly at a board.  This is because, for one,  humans can’t really think in random patterns anyway, but more importantly it is because it isn’t really an effective strategy for finding a ship. I noticed this after building my first version of this algorithm, which carried out the hunting phase by firing at random coordinates at the board, and in playing against it I beat it easily every time. </p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The first thing that we might note about phase 1 as stated above is that when we play the game of battleship, we really don’t just fire randomly at a board.  This is because, for one,  humans can’t really think in random patterns anyway, but more importantly because it isn’t really an effective strategy for finding a ship. I noticed this after building my first version of this algorithm, which carried out the hunting phase by firing at random coordinates at the board, and in playing against it I beat it easily every time. </p>
 
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instead of firing randomly at the board, I was distributing my shots more evenly across the board. And this makes sense because we wouldn’t want to, for instance, to fire into a single square coordinate surrounded by four occupied coordinates, because the smallest ship is two units in length. Or if we were  looking for a ship that was four squares long, we would want to focus on the areas of the board that have space for that ship rather than indiscriminately firing at any empty square. </p>
   
 ### The Checkerboard Strategy
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One way to effectively carry out phase one is to use a “checkerboard” strategy-- firing at every other coordinate on the board. Since every ship has a minimum length of two, every ship will have at least one part on an odd or even square. On a 10x10 board, this means that we can fire at 50 squares to find our ship, rather than 100. </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One way to effectively carry out phase 1 is to use a “checkerboard” strategy-- firing at every other coordinate on the board. Since every ship has a minimum length of two, every ship will have at least one part on an odd or even square. On a 10x10 board, this means that we can fire at 50 squares to find our ship, rather than 100. </p>
 
 (insert checkerboard image here) 
 
@@ -41,10 +41,10 @@ Each position in the new 2d array holds coordinates to target the main board, li
 
 (show example)
 
-We can then randomly fire at these coordinates and greatly increase our likelihood of hitting a ship on any given attempt. There might be other strategies besides randomly firing at the coordinates (this site mentions probability functions), but in the scope of this project, the goal of this algorithm is to be reasonably effective and difficult to beat, not necesarily to be the *most* optimized algorithm possible, and randomly firing accomplishes this goal quite well. 
+We can then randomly fire at these coordinates and greatly increase our likelihood of hitting a ship on any given attempt. 
 
 ### Hunting for a ship: 
-We simply generate two random coordinates in our checkerboard, and then fire at the main board with the coordinates that we get from the checkerboard. If we can't fire there (because it has already been attempted before and contains either a hit or a miss), we'll get an error and call the function again. Once we get a hit, we move to phase 2, which is the "hone in" phase-- trying to find the orientation of the ship. 
+Here we take the checkerboard 2d array and randomly select coordinates from it. Then, fire at the main board with those coordinates that we got from the checkerboard. If we can't fire there (because it has already been attempted before and contains either a hit or a miss), we'll get an error and call the function again. Once we get a hit, we move to phase 2, which is the "hone in" phase-- trying to find the orientation of the ship. 
 
 
 ```js
@@ -107,13 +107,17 @@ let targetStack = [];
 let hitArray = []; 
 ```
 ### Managing phases with hitArray and targetStack
-#### The hitArray
-- The hitArray keeps track of the current ship being targeted, and is responsible for the attack on a single ship. If there is only one coordinate in this array, we are in the "hone in" phase and attack the surrounding squares. 
-- If there are multiple coordinates in the hitArray, we are in the "sink" phase-- we have an orientation and attack along an axis. If, at the end of the this cycle there are still coordinates in the hitArray that have not been sunk, those are pushed to the targetStack, and a new hone in phase is started for each of the coordinates in the stack. 
-#### The targetStack
-- The targetStack keeps track of any hit targets that have not been sunk. If the hitArray is empty and there is something in the target stack, we shift the first coordinate from the targetStack into the hitArray.
 #### Hunting Phase
-- If there is nothing in either the hitArray or the targetStack, we are in the "hunting" phase, trying to find a ship. 
+- If there is nothing in either the hitArray or the targetStack, we are in the "hunting" phase and trying to find a ship. After we hit a ship, we push the hit coordinates to the hitArray.
+
+#### hitArray
+- The hitArray keeps track of the current ship being targeted, and is responsible for the attack on a single ship. If there is only one coordinate in this array, we are in the "hone in" phase and attack the surrounding squares. 
+- If there are multiple coordinates in the hitArray, we are in the "sink" phase-- we have an orientation and attack along an axis.
+- The attack ends with either receiving a "sunk" response from the game, meaning a ship has been sunk, or if no ship has been sunk and we can't continue firing along that axis (this means that the ships are parallel). 
+- If after the attack there are still coordinates in the hitArray that have not been sunk, those are pushed to the targetStack, and the hitArray is cleared. A new hone in phase is started for each of the coordinates in the stack by shifting each coordinate to the hitArray in turn. 
+#### targetStack
+- The targetStack keeps track of any hit targets that have not been sunk. If the hitArray is empty and there is something in the target stack, we shift the first coordinate from the targetStack into the hitArray.
+
 #### So, To Summarize:
 At the beginning of every call to the computer player, it will check first-- is there anything in the hitArray?
 - if there is only one thing in the hit array, a ship has been hit, but an orientation has not be determined. Attack the surrounding squares.
@@ -121,9 +125,13 @@ At the beginning of every call to the computer player, it will check first-- is 
 - if there is nothing in the hit array, we check the target stack
 - if there is something in the target stack && it is not sunk, shift the coordinate to the hitArray and hone in
 - if there is something in the target stack && it is sunk, remove it from the target stack and move to the next coordinate
-- if there is nothing in the target stack && nothing in the hitArray, then we randomly fire.
+- if there is nothing in the target stack && nothing in the hitArray, then we randomly select a checkerboard coordinate to use to fire at the main board. Once we hit a ship, we push those coordinates to the hitArray
 
-The computer player is in its own module, and is controlled by the function computerPlayer. In the code below, there is an extra difficulty setting, where in easy mode the algorithm does not implement the checkerboard strategy. Which strategy is implemented is controlled by the findTarget() method: 
+The computer player is in its own module of functions, which are controlled by the function computerPlayer(). Each function that computerPlayer() calls will set the move, which the computerPlayer returns.The move is the response from the player's gameboard, and the new board state. This can be used by the front end to update the display.
+```js
+move = { res: res, board: game.getBoard() } 
+```
+In the code below, there is an extra difficulty setting, where in easy mode the algorithm does not implement the checkerboard strategy. Which strategy is implemented is controlled by the findTarget() method: 
 
 ```js
 const computerPlayer = (game, mode) => {
@@ -135,19 +143,21 @@ const computerPlayer = (game, mode) => {
       findTarget(game)
       return move;
     } else if (targetStack.length !== 0) {
-      manageTargetStack(game);
+      manageTargetStack(game); //takes a target from the stack and sends it to hit array if appropriate.
       return move;
     }
   }
   if (hitArray.length === 1) {
-    // we have a target and are trying to find the rest of the ship
+    // hone in mode: trying to find an orientation
     honeIn(game);
     return move;
   }
   if (hitArray.length > 1) {
-    //found the ship, keep attacking
+    //sink mode: we have an orientation and are firing along an axis
     sinkShip(game);
     return move;
   }
 };
 ```
+
+
