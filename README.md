@@ -100,6 +100,19 @@ Consider the following examples:
 - In example 1, we had seemingly found an axis, but upon not sinking anything, a human would realize that there are three parallel ships to attack, and that the three hit points are actually  _each_ a starting point for the hone in phase. 
 - In example 2, we _do_ get a sunk ship, but there is an extra hit square that hasn't been sunk. Again, a human would realize that this is another ship to hone in on.
 
-## Using stacks to hone in on all ships
-A straightforward way to handle this is to use stacks to make sure that we are sinking all of the ships that we hit. 
+## Using stacks to manage phases
+A straightforward way to handle this is to use stacks to make sure that we are sinking all of the ships that we hit. We'll start off with two empty arrays, hitArray and targetStack: 
+```js
+let targetStack = [];
+let hitArray = []; 
+```
+The hitArray keeps track of the current ship being targeted, and is responsible for the "hone in" phase. If there is anything in the hit array, we are in the hone in phase.  The targetStack keeps track of any hit targets that have not been sunk. If the hitArray is empty and there is something in the target stack, we shift the first coordinate from the targetStack into the hitArray. 
+And lets say that we are starting a new game, so we know these two arrays are empty. Here is an overview of the steps the algorithm will take: 
+At the beginning of every call to the computer player, it will check first-- is there anything in the hitArray?
+//--if there is only one thing in the hit array, a ship has been hit, but an orientation has not be determined. Attack the surrounding squares.
+//--if there are two or more things in the hit array, we have a ship that we are trying to attack
+//--if there is nothing in the hit array, we check the target stack
+//--if there is something in the target stack && it is not sunk, repeat the cycle.
+//--if there is something in the target stack && it is sunk, remove it from the target stack and repeat the previous step
+//--if there is nothing in the target stack, then we randomly fire.
 
