@@ -119,7 +119,7 @@ At the beginning of every call to the computer player, it will check first-- is 
 - if there is only one thing in the hit array, a ship has been hit, but an orientation has not be determined. Attack the surrounding squares.
 - if there are two or more things in the hit array, we have an orientation and are attacking along an axis
 - if there is nothing in the hit array, we check the target stack
-- if there is something in the target stack && it is not sunk, repeat the cycle.
-- if there is something in the target stack && it is sunk, remove it from the target stack and repeat the previous step
-- if there is nothing in the target stack, then we randomly fire.
+- if there is something in the target stack && it is not sunk, shift the coordinate to the hitArray and hone in
+- if there is something in the target stack && it is sunk, remove it from the target stack and move to the next coordinate
+- if there is nothing in the target stack && nothing in the hitArray, then we randomly fire.
 
