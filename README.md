@@ -62,7 +62,7 @@ const randomFireCheckerboard = (game) => {
       //it's a hit, add to hitArray and note surrounding squares. This moves the algorithm into phase two, 
       //which will be talked about below
       hitArray.push([target[0], target[1]]);
-      generateSurroundingSquares(target[0], target[1]);
+      generateSurroundingSquares(target[0], target[1]); // generates the surrounding squares for the hone in phase.
     }
   } catch {
     //if error is returned, try again
