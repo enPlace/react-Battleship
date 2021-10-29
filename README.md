@@ -8,9 +8,9 @@
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pretty straightforward right? Well, there are some other things that we want to take into consideration when thinking through this algorithm if we want to make it an effective one-- that is, one that at least isn’t super easy to beat, and mimmicks how humans play the game. </p>
 
 ## Phase 1: Hunt for the ship
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The first thing that we might note about phase 1 as stated above is that when we play the game of battleship, we really don’t just fire randomly at a board.  This is because, for one,  humans can’t really think in random patterns anyway, but more importantly because it isn’t really an effective strategy for finding a ship. I noticed this after building my first version of this algorithm, which carried out the hunting phase by firing at random coordinates at the board, and in playing against it I beat it easily every time. </p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The first thing that we might note about phase 1 as stated above is that when we play the game of battleship, we really don’t just fire randomly at a board.  This is because, for one,  humans can’t really think in random patterns anyway, but more importantly because it isn’t really an effective strategy for finding a ship. I noticed this after building my first version of this algorithm, which carried out the hunting phase by firing at random coordinates at the board, and in playing against it I beat it easily almost every time. </p>
 
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instead of firing randomly at the board, I was distributing my shots more evenly across the board. And this makes sense because we wouldn’t want to, for instance, to fire into a single square coordinate surrounded by four occupied coordinates, because the smallest ship is two units in length. Or if we were  looking for a ship that was four squares long, we would want to focus on the areas of the board that have space for that ship rather than indiscriminately firing at any empty square. </p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instead of firing randomly at the board, I was distributing my shots more evenly across the board. And this makes sense because we wouldn’t want to, for instance, fire into a single square coordinate surrounded by four occupied coordinates, because the smallest ship is two units in length. Or if we were  looking for a ship that was four squares long, we would want to focus on the areas of the board that have space for that ship rather than indiscriminately firing at any empty square. </p>
   
 ### The Checkerboard Strategy
 
@@ -113,7 +113,7 @@ let hitArray = [];
 #### hitArray
 - The hitArray keeps track of the current ship being targeted, and is responsible for the attack on a single ship. If there is only one coordinate in this array, we are in the "hone in" phase and attack the surrounding squares. 
 - If there are multiple coordinates in the hitArray, we are in the "sink" phase-- we have an orientation and attack along an axis.
-- The attack ends with either receiving a "sunk" response from the game, meaning a ship has been sunk, or if no ship has been sunk and we can't continue firing along that axis (this means that the ships are parallel). 
+- The attack ends with either receiving a "sunk" response from the game (i.e. sinking a ship), or if no ship has been sunk and we can't continue firing along that axis (this means that the ships are parallel). 
 - If after the attack there are still coordinates in the hitArray that have not been sunk, those are pushed to the targetStack, and the hitArray is cleared. A new hone in phase is started for each of the coordinates in the stack by shifting each coordinate to the hitArray in turn. 
 #### targetStack
 - The targetStack keeps track of any hit targets that have not been sunk. If the hitArray is empty and there is something in the target stack, we shift the first coordinate from the targetStack into the hitArray.
