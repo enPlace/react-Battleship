@@ -18,8 +18,8 @@
 
 (insert checkerboard image here) 
 
-If both of the smallest ships are hit early, the strategy then becomes to fire at every second square. If the smallest ship left is four units long, then we fire at every third square. In other words, we want to fire at every nth square where n = the length of the smallest ship - 1.
-
+We can go further and make the checkerboard depend the length of the smallest ship. If both of the two-square ships are hit early and the smallest ship is three squares long, the strategy then becomes to fire at every second square. If the smallest ship left is four units long, then we fire at every third square. In other words, we want to fire at every nth square where n = the length of the smallest ship - 1.
+(insert other checkerboard images)
 We can generate a dynamic checkerboard based off of the length of the smallest ship with a nested loop to create a subset of checkerboard coordinates like so:  
 ```js
 const setCheckerBoardCoords = (game) => {
@@ -41,10 +41,10 @@ Each position in the new 2d array holds coordinates to target the main board, li
 
 (show example)
 
-We can then randomly fire at these coordinates and greatly increase our likelihood of hitting a ship on any given attempt. There might be other strategies besides randomly firing at the coordinates (this site mentions probability functions), but the goal of this algorithm is to be reasonably effective and difficult to beat, not necesarily to be the *most* optimized algorithm possible, and randomly firing does this quite well. 
+We can then randomly fire at these coordinates and greatly increase our likelihood of hitting a ship on any given attempt. There might be other strategies besides randomly firing at the coordinates (this site mentions probability functions), but in the scope of this project, the goal of this algorithm is to be reasonably effective and difficult to beat, not necesarily to be the *most* optimized algorithm possible, and randomly firing accomplishes this goal quite well. 
 
-### Random fire: 
-We simply generate two random coordinates in our checkerboard, and then fire at the main board with the coordinates that we get from the checkerboard. If we can't fire there (because it has already been attempted before), we'll get an error and call the function again. Once we get a hit, we move to phase 2, which is the "hone in" phase-- trying to find the orientation of the ship. 
+### Hunting for a ship: 
+We simply generate two random coordinates in our checkerboard, and then fire at the main board with the coordinates that we get from the checkerboard. If we can't fire there (because it has already been attempted before and contains either a hit or a miss), we'll get an error and call the function again. Once we get a hit, we move to phase 2, which is the "hone in" phase-- trying to find the orientation of the ship. 
 
 
 ```js
