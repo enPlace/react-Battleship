@@ -101,5 +101,5 @@ Consider the following examples:
 - In example 2, we _do_ get a sunk ship, but there is an extra hit square that hasn't been sunk. Again, a human would realize that this is another ship to hone in on.
 
 ## Using stacks to hone in on all ships
-
+A straightforward way to handle this is to use stacks to make sure that we are sinking all of the ships that we hit. 
 
