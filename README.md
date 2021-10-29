@@ -100,16 +100,19 @@ Consider the following examples:
 - In example 1, we had seemingly found an axis, but upon not sinking anything, a human would realize that there are three parallel ships to attack, and that the three hit points are actually  _each_ a starting point for the hone in phase. 
 - In example 2, we _do_ get a sunk ship, but there is an extra hit square that hasn't been sunk. Again, a human would realize that this is another ship to hone in on.
 
-## Using stacks to manage phases
+## Using a stack to manage the attack
 A straightforward way to handle this is to use stacks to make sure that we are sinking all of the ships that we hit. We'll start off with two empty arrays, hitArray and targetStack: 
 ```js
 let targetStack = [];
 let hitArray = []; 
 ```
-- The hitArray keeps track of the current ship being targeted, and is responsible for the "hone in" phase. If there is **anything** in the hit array, we are in the hone in phase. 
-
-- The targetStack keeps track of any hit targets that have not been sunk. If the hitArray is empty and there is something in the target stack, we shift the first coordinate from the targetStack into the hitArray. 
-
+### Managing phases with hitArray and targetStack
+#### The hitArray
+- The hitArray keeps track of the current ship being targeted, and is responsible for the attack on a single ship. If there is only one coordinate in this array, we are in the "hone in" phase and attack the surrounding squares. 
+- If there are multiple coordinates in the hitArray, we are in the "sink" phase-- we have an orientation and attack along the orientation. If, at the end of the this cycle there are still coordinates in the hitArray that have not been sunk, those are pushed to the targetStack, and a new hone in phase is started for each of the coordinates in the stack. 
+#### The targetStack
+- The targetStack keeps track of any hit targets that have not been sunk. If the hitArray is empty and there is something in the target stack, we shift the first coordinate from the targetStack into the hitArray.
+#### Hunting Phase
 - If there is nothing in either the hitArray or the targetStack, we are in the "hunting" phase, trying to find a ship. 
 
 And lets say that we are starting a new game, so we know these two arrays are empty. Here is an overview of the steps the algorithm will take: 
