@@ -97,7 +97,7 @@ const randomFireCheckerboard = (game) => {
   const checkerBoardCoords = setCheckerBoardCoords(game)
   console.log(checkerBoardCoords)
   const row = Math.floor(Math.random() * 10);
-  const col = Math.floor(Math.random() * checkerBoardCoords[0].length+1);
+  const col = Math.floor(Math.random() * checkerBoardCoords[0].length);
   const target = checkerBoardCoords[row][col]
 
   try {

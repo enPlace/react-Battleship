@@ -52,7 +52,7 @@ const randomFireCheckerboard = (game) => {
 
   const checkerBoardCoords = setCheckerBoardCoords(game)
   const row = Math.floor(Math.random() * 10);
-  const col = Math.floor(Math.random() * checkerBoardCoords[0].length+1);
+  const col = Math.floor(Math.random() * checkerBoardCoords[0].length);
   const target = checkerBoardCoords[row][col]
 
   try {
@@ -123,3 +123,31 @@ At the beginning of every call to the computer player, it will check first-- is 
 - if there is something in the target stack && it is sunk, remove it from the target stack and move to the next coordinate
 - if there is nothing in the target stack && nothing in the hitArray, then we randomly fire.
 
+The computer player is in its own module, and is controlled by the function computerPlayer. In the code below, there is an extra difficulty setting, where in easy mode the algorithm does not implement the checkerboard strategy. Which strategy is implemented is controlled by the findTarget() method: 
+
+```js
+const computerPlayer = (game, mode) => {
+  difficulty = mode
+  if (hitArray.length === 0) {
+    // not currently attacking any ship
+    if (targetStack.length === 0) {
+      //no previous hit targets to add to attack
+      findTarget(game)
+      return move;
+    } else if (targetStack.length !== 0) {
+      manageTargetStack(game);
+      return move;
+    }
+  }
+  if (hitArray.length === 1) {
+    // we have a target and are trying to find the rest of the ship
+    honeIn(game);
+    return move;
+  }
+  if (hitArray.length > 1) {
+    //found the ship, keep attacking
+    sinkShip(game);
+    return move;
+  }
+};
+```
