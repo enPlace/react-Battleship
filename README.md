@@ -112,7 +112,7 @@ let hitArray = [];
 
 #### hitArray
 - The hitArray keeps track of the current ship being targeted, and is responsible for the attack on a single ship. If there is only one coordinate in this array, we are in the "hone in" phase, because we've only struck a single ship once. Thus, the algorithm should attack the surrounding squares. 
-- If there are multiple coordinates in the hitArray, we are in the "sink" phase-- we have an orientation and attack along an axis.
+- If there are multiple coordinates in the hitArray, we are in the "sink" phase-- we have hit at least two neighboring squares and can therefore determine an orientation and attack along an axis.
 - The attack ends with either receiving a "sunk" response from the game (i.e. sinking a ship), or if no ship has been sunk and we can't continue firing along that axis (this means that the ships are parallel). 
 - If after the attack there are still coordinates in the hitArray that have not been sunk, those are pushed to the targetStack, and the hitArray is cleared. A new hone in phase is started for each of the coordinates in the stack by shifting each coordinate to the hitArray in turn. 
 #### targetStack
