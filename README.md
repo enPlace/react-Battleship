@@ -99,8 +99,8 @@ So what happens in phases 2 and 3? Remember that "honing in" means that we've hi
 
   **Hone In**
   
-  1. Generate the four surrounding squares of the hit target
-  2. Randomly fire at those squares
+  1. Calculate the coordinates of the four surrounding squares of the first hit target
+  2. Randomly fire at those coordinates until we get another hit
   3. Once another square is hit, determine an orientation (vertical or horizontal)
   
   **Sink**
