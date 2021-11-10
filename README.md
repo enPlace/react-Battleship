@@ -16,10 +16,13 @@
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One way to effectively carry out phase 1 is to use a “checkerboard” strategy-- firing at every other coordinate on the board. Since every ship has a minimum length of two, every ship will have at least one part on an odd or even square. On a 10x10 board, this means that we can fire at 50 squares to find our ship, rather than 100. </p>
 
-<img src = "./checkerboard2x2.png" alt = "" width = "250">
+<img src = "./checkerboard2.png" alt = "" width = "250">
 
-We can go further and make the checkerboard depend the length of the smallest ship. If both of the two-square ships are hit early and the smallest ship is three squares long, the strategy then becomes to fire at every second square. If the smallest ship left is four units long, then we fire at every third square. In other words, we want to fire at every nth square where n = the length of the smallest ship - 1.
-(insert other checkerboard images)
+We can go further and make the checkerboard depend the length of the smallest ship. If both of the two-square ships are hit early and the smallest ship is three squares long, the strategy then becomes to fire at every third square. If the smallest ship left is four units long, then we fire at every fourth square. In other words, we want to fire at every nth square where n = the length of the smallest ship.
+
+<img src = "./checkerboard3.png" alt = "" width = "250">
+- the smallest ship is 3 squares long, so target every 3rd square 
+
 We can generate a dynamic checkerboard based off of the length of the smallest ship with a nested loop to create a subset of checkerboard coordinates like so:  
 ```js
 const setCheckerBoardCoords = (game) => {
