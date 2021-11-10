@@ -61,7 +61,7 @@ Each position in the new 2d array holds coordinates to target the main board, li
   [ [ 9, 1 ], [ 9, 3 ], [ 9, 5 ], [ 9, 7 ], [ 9, 9 ] ]
 ]
 ```
-We can then randomly fire at these coordinates and greatly increase our likelihood of hitting a ship on any given attempt. 
+We can then fire at this subset of coordinates and greatly increase our likelihood of hitting a ship on any given attempt. 
 
 ### Hunting for a ship: 
 Here we take the checkerboard 2d array and randomly select coordinates from it. Then, fire at the main board with those coordinates that we got from the checkerboard. If we can't fire there (because it has already been attempted before and contains either a hit or a miss), we'll get an error and call the function again. Once we get a hit, we move to phase 2, which is the "hone in" phase-- trying to find the orientation of the ship. 
