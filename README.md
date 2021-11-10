@@ -95,7 +95,7 @@ const randomFireCheckerboard = (game) => {
 
 ## Phases 2 and 3: Hone In and Sink
 
-So what happens in phases 2 and 3? Ideally, these are the steps: 
+So what happens in phases 2 and 3? Remember that "honing in" means that we've hit one square, and are looking for the reast of the ship. In the sinking phase, we've gotten an orientation, and are firing along an axis, trying to sink the ship. Ideally, these are the steps: 
 
   **Hone In**
   
