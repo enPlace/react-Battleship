@@ -128,7 +128,7 @@ let hitArray = [];
 ```
 ### Managing phases with hitArray and targetStack
 
-<p>The contents (or lack thereof) of each stack will determine what phase the algorithm is in, and what the algorithm should do</p>
+<p>The contents (or lack thereof) of the hitArray and the targetStack will determine what phase the algorithm is in, and what the algorithm should do.</p>
 
 #### Hunting Phase
 - If there is nothing in either the hitArray or the targetStack, we are in the "hunting" phase and trying to find a ship. After we hit a ship, we push the hit coordinates to the hitArray.
