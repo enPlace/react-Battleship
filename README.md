@@ -143,11 +143,11 @@ let hitArray = [];
 
 #### So, To Summarize:
 At the beginning of every call to the computer player, it will check first-- is there anything in the hitArray?
-- if there is only one thing in the hit array, a ship has been hit, but an orientation has not be determined. Attack the surrounding squares.
-- if there are two or more things in the hit array, we have an orientation and are attacking along an axis
-- if there is nothing in the hit array, we check the target stack
-- if there is something in the target stack && it is not sunk, shift the first coordinate to the hitArray and start the hone in phase for that coordinate
-- if there is something in the target stack && it is sunk, remove it from the target stack and move to the next coordinate in the target stack, if there is one
+- if there is one sole coordinate in the hit array, a ship has been hit, but an orientation has not be determined. Attack the surrounding squares.
+- if there are two or more things in the hit array, an orientation has been determined and the algorithm will attack along an axis
+- if there is nothing in the hit array, the target stack is checked for contents
+- if there is something in the target stack && it is not a part of a sunk ship, shift the first coordinate to the hitArray and start the hone in phase for that coordinate
+- if there is something in the target stack && it is a part of a sunk ship, remove it from the target stack and move to the next coordinate in the target stack, if there is one
 - if there is nothing in the target stack && nothing in the hitArray, the algorithm is in the hunting phase and randomly selects a checkerboard coordinate to use to fire at the main board. Once a ship is hit, it pushes those coordinates to the hitArray
 
 
