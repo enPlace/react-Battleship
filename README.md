@@ -25,6 +25,8 @@ We can go further and make the checkerboard depend the length of the smallest sh
 <p ><img src = "./checkerboard4.png" alt = "" width = "250">
 the smallest ship is 4 squares long, so target every 4th square</p>
 
+<p ><img src = "./checkerboard5.png" alt = "" width = "250">
+the smallest ship is 5 squares long, so target every 5th square</p>
 
 We can generate a dynamic checkerboard based off of the length of the smallest ship with a nested loop to create a subset of checkerboard coordinates like so:  
 ```js
