@@ -2,7 +2,7 @@
 ## Background: 
 <p>I started off building this thinking about how I typically play the game of battleship, which generally has three phases: </p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1. Randomly target coordinates on a board until I get a hit. Lets call this phase the “hunting” phase.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. Once I get a hit, find out the orientation of the ship (that is, is the ship placed horizontally or vertically on the board) by firing around the target. This phase we can call “honing in” </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. Once I get a hit, fiin lengthnd out the orientation of the ship (that is, is the ship placed horizontally or vertically on the board) by firing around the target. This phase we can call “honing in” </p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3. Once I get an orientation for the ship, I fire along that axis until I sink the ship. The “sinking” phase.</p>
 
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pretty straightforward right? Well, there are some other things that we want to take into consideration when thinking through this algorithm if we want to make it an effective one-- that is, one that is relatively challenging to beat and mimmicks how humans play the game. </p>
@@ -10,7 +10,7 @@
 ## Phase 1: Hunt for the ship
   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The first thing that we might note about phase 1 as stated above is that when we play the game of battleship, we really don’t just fire randomly at a board.  This is because, for one,  humans can’t really think in random patterns anyway, but even if we could, it wouldn't really be an effective strategy for finding a ship. I noticed this after building my first version of this algorithm, which carried out the hunting phase by firing at random coordinates at the board, and in playing against it I beat it easily almost every time. </p>
 
-  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I noticed that when I was hunting for a ship, instead of firing randomly at the board, I was distributing my shots more evenly across certain areas and thinking about what ships could fit in what spaces on the board. And this makes sense because I wouldn’t want to, for instance, fire into a single square coordinate surrounded by four occupied coordinates, because the smallest ship is two units in length (and would therefore be impossible to find a ship in such a square).  Or if I were  looking for a ship that was four squares long, I would want to focus on the areas of the board that have space for that ship rather than indiscriminately firing at any empty square. </p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I noticed that when I was hunting for a ship, instead of firing randomly at the board, I was distributing my shots more evenly across certain areas and thinking about what ships could fit in what spaces on the board. And this makes sense because I wouldn’t want to, for instance, fire into a single square coordinate surrounded by four occupied coordinates, because the smallest ship is two units in length (and it would therefore be impossible to find a ship in such a square).  Or if I were  looking for a ship that was four squares long, I would want to focus on the areas of the board that have space for that ship rather than indiscriminately firing at any empty square. </p>
   
 ### The Checkerboard Strategy
 
@@ -31,7 +31,7 @@ the smallest ship is 5 squares long, so target every 5th square</p>
 We can generate a dynamic checkerboard based off of the length of the smallest ship with a nested loop to create a subset of checkerboard coordinates like so:  
 ```js
 const setCheckerBoardCoords = (game) => {
-  checkerBoardCoords = [[], [], [], [], [], [], [], [], [], []]; //2d array to house the new coords
+  let checkerBoardCoords = [[], [], [], [], [], [], [], [], [], []]; //2d array to house the new coords
   const shipLength = smallestRemainingShipLength(game); // the smallest ship left to sink
 
   for (let i = 0; i < 10; i++) {
