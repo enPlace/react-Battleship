@@ -20,7 +20,7 @@
 
 We can go further and make the checkerboard depend the length of the smallest ship. If both of the two-square ships are hit early and the smallest ship is three squares long, the strategy then becomes to fire at every third square. If the smallest ship left is four units long, then we fire at every fourth square. In other words, we want to fire at every nth square where n = the length of the smallest ship.
 
-<div><img src = "./checkerboard3.png" alt = "" width = "250">
+<div markdown = "1" ><img src = "./checkerboard3.png" alt = "" width = "250">
 the smallest ship is 3 squares long, so target every 3rd square </div>
 
 <p><img src = "./checkerboard4.png" alt = "" width = "250">
