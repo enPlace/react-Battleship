@@ -146,10 +146,12 @@ At the beginning of every call to the computer player, it will check first-- is 
 - if there is only one thing in the hit array, a ship has been hit, but an orientation has not be determined. Attack the surrounding squares.
 - if there are two or more things in the hit array, we have an orientation and are attacking along an axis
 - if there is nothing in the hit array, we check the target stack
-- if there is something in the target stack && it is not sunk, shift the coordinate to the hitArray and hone in
-- if there is something in the target stack && it is sunk, remove it from the target stack and move to the next coordinate
-- if there is nothing in the target stack && nothing in the hitArray, then we randomly select a checkerboard coordinate to use to fire at the main board. Once we hit a ship, we push those coordinates to the hitArray
+- if there is something in the target stack && it is not sunk, shift the first coordinate to the hitArray and start the hone in phase for that coordinate
+- if there is something in the target stack && it is sunk, remove it from the target stack and move to the next coordinate in the target stack, if there is one
+- if there is nothing in the target stack && nothing in the hitArray, the algorithm is in the hunting phase and randomly selects a checkerboard coordinate to use to fire at the main board. Once a ship is hit, it pushes those coordinates to the hitArray
 
+
+## The Computer Player Module
 The computer player is in its own module of functions, which are controlled by the function computerPlayer(). Each function that computerPlayer() calls will set the move, which the computerPlayer returns.The move is the response from the player's gameboard, and the new board state. This can be used by the front end to update the display.
 ```js
 move = { res: res, board: game.getBoard() } 
