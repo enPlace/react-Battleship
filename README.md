@@ -23,7 +23,7 @@ We can go further and make the checkerboard depend the length of the smallest sh
 <div markdown = "1" ><img src = "./checkerboard3.png" alt = "" width = "250">
 <p align = "center">the smallest ship is 3 squares long, so target every 3rd square</p> </div>
 
-<div markdown = "1" ><img src = "./checkerboard4.png" alt = "" width = "250">
+<div markdown = "1" ><img src = "./checkerboard4.png" alt = "" width = "250" align = "center" >
 <p align = "center">the smallest ship is 4 squares long, so target every 4th square</p> </div>
 
 
