@@ -16,7 +16,7 @@
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One way to effectively carry out phase 1 is to use a “checkerboard” strategy-- firing at every other coordinate on the board. Since every ship has a minimum length of two, every ship will have at least one part on an odd or even square. On a 10x10 board, this means that we can fire at 50 squares to find our ship, rather than 100. </p>
 
-(insert checkerboard image here) 
+<img src = "./checkerboard2x2.png" alt = "" width = "250">
 
 We can go further and make the checkerboard depend the length of the smallest ship. If both of the two-square ships are hit early and the smallest ship is three squares long, the strategy then becomes to fire at every second square. If the smallest ship left is four units long, then we fire at every third square. In other words, we want to fire at every nth square where n = the length of the smallest ship - 1.
 (insert other checkerboard images)
@@ -111,12 +111,12 @@ let hitArray = [];
 - If there is nothing in either the hitArray or the targetStack, we are in the "hunting" phase and trying to find a ship. After we hit a ship, we push the hit coordinates to the hitArray.
 
 #### hitArray
-- The hitArray keeps track of the current ship being targeted, and is responsible for the attack on a single ship. If there is only one coordinate in this array, we are in the "hone in" phase, because we've only struck a single ship once. Thus, the algorithm should attack the surrounding squares. 
-- If there are multiple coordinates in the hitArray, we are in the "sink" phase-- we have hit at least two neighboring squares and can therefore determine an orientation and attack along an axis.
+- The hitArray keeps track of the current ship being targeted, and is responsible for the attack on a single ship. If there is only one coordinate in this array, we are in the "hone in" phase and attack the surrounding squares. 
+- If there are multiple coordinates in the hitArray, we are in the "sink" phase-- we have an orientation and attack along an axis.
 - The attack ends with either receiving a "sunk" response from the game (i.e. sinking a ship), or if no ship has been sunk and we can't continue firing along that axis (this means that the ships are parallel). 
 - If after the attack there are still coordinates in the hitArray that have not been sunk, those are pushed to the targetStack, and the hitArray is cleared. A new hone in phase is started for each of the coordinates in the stack by shifting each coordinate to the hitArray in turn. 
 #### targetStack
-- The targetStack keeps track of any hit targets that have not been sunk after an finishing an attack managed by the hitArray. If the hitArray is empty and there is something in the target stack, we shift the first coordinate from the targetStack into the hitArray. Again, if there is nothing in either array, we are in the hunting phase (see above)
+- The targetStack keeps track of any hit targets that have not been sunk. If the hitArray is empty and there is something in the target stack, we shift the first coordinate from the targetStack into the hitArray.
 
 #### So, To Summarize:
 At the beginning of every call to the computer player, it will check first-- is there anything in the hitArray?
@@ -125,7 +125,7 @@ At the beginning of every call to the computer player, it will check first-- is 
 - if there is nothing in the hit array, we check the target stack
 - if there is something in the target stack && it is not sunk, shift the coordinate to the hitArray and hone in
 - if there is something in the target stack && it is sunk, remove it from the target stack and move to the next coordinate
-- if there is nothing in the target stack && nothing in the hitArray, then we randomly select a checkerboard coordinate to use to fire at the main board. Once we hit a ship, we push those coordinates to the hitArray, repeating the process
+- if there is nothing in the target stack && nothing in the hitArray, then we randomly select a checkerboard coordinate to use to fire at the main board. Once we hit a ship, we push those coordinates to the hitArray
 
 The computer player is in its own module of functions, which are controlled by the function computerPlayer(). Each function that computerPlayer() calls will set the move, which the computerPlayer returns.The move is the response from the player's gameboard, and the new board state. This can be used by the front end to update the display.
 ```js
