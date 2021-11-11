@@ -1,4 +1,4 @@
-# Building an algorithm that plays as your opponent
+# The computerPlayer.js module: The algorithm that plays as your opponent
 ## Background: 
 <p>I started off building this thinking about how I typically play the game of battleship, which generally has three phases: </p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1. Randomly target coordinates on a board until I get a hit. Lets call this phase the “hunting” phase.</p>
