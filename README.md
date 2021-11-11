@@ -64,7 +64,9 @@ Each position in the new 2d array holds coordinates to target the main board, li
 We can then fire at this subset of coordinates and greatly increase our likelihood of hitting a ship on any given attempt. 
 
 ### Hunting for a ship: 
-Here we take the checkerboard 2d array generated above and randomly select coordinates from it. Then, fire at the main board with those coordinates that we got from the checkerboard. If we can't fire there (because it has already been attempted before and contains either a hit or a miss), we'll get an error and call the function again. Once we get a hit, we move to phase 2, which is the "hone in" phase-- trying to find the orientation of the ship. The randomFireCheckerboard() function handles this, and takes as its argument a game factory function instantiated from the gameboard.js module.
+Here we take the checkerboard 2d array generated above and randomly select coordinates from it. Then, fire at the main board with those coordinates that we got from the checkerboard. The randomFireCheckerboard() function handles this, and takes as its argument a game factory function instantiated from the gameboard.js module. It fires at the game board with game.fire() and then sets the move, which is the response from the game factory function and the new board state. This move will be returned outside of the module by a controller function described in more detail below.
+
+If the response returned from the game function is an array, this means that a ship has been hit, and the surrounding squares will be generated and stored elsewhere in the parent module. If the response is an error, this means that the coordinates selected cannot be fired upon, likely because the coordinates have already been fired at in a previous move. In this case, the function simply calls itself again to give it another try. 
 
 
 ```js
@@ -81,9 +83,9 @@ const randomFireCheckerboard = (game) => {
     if (Array.isArray(res)) {
       //it's a hit, add to hitArray and note surrounding squares. This moves the algorithm into phase two, 
       //which will be talked about below
-      hitArray.push([target[0], target[1]]);
-      generateSurroundingSquares(target[0], target[1]); // generates the surrounding squares for the hone in phase.
-    }
+      hitArray.push([target[0], target[1]]); //push the coordinates to an array of hit targets
+      generateSurroundingSquares(target[0], target[1]); // calculates the surrounding squares for the hone in phase.
+    }If the 
   } catch {
     //if error is returned, try again
     randomFireCheckerboard(game);
