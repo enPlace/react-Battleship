@@ -164,6 +164,7 @@ const hunt = (game) =>{
   if(difficulty ==="hard") randomFireCheckerboard(game)
 }
 ```
+The process of phases illustrated previously of hunt, hone in, and sink is controlled by the computerPlayer() function. 
 ```js
 const computerPlayer = (game, mode) => {
   difficulty = mode
