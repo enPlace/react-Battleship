@@ -124,7 +124,9 @@ Consider the following examples:
 - In example 2, we _do_ get a sunk ship, but there is an extra hit square that hasn't been sunk. Again, a human would realize that this is another ship to hone in on.
 
 ## Using a stack to manage the attack
-A straightforward way to handle this is to use stacks to make sure that we are sinking all of the ships that we hit. We'll start off with two empty arrays, hitArray and targetStack: 
+A straightforward way to handle this is to use a stack to make sure that we are sinking all of the ships that we hit. At the end of an attack along an axis, we can check to see if any coordinates belong to unsunk ships. If so, we push them into the stack. Before starting a new hunt for another ship, check the stack. If there are coordinates in the stack, shift the 0th coordinates from the stack and start the honeIn phase again. 
+
+To implement this, we'll start off with two empty arrays, hitArray and targetStack: 
 ```js
 let targetStack = [];
 let hitArray = []; 
