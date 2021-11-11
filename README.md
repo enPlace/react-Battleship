@@ -152,11 +152,12 @@ At the beginning of every call to the computer player, it will check first-- is 
 
 
 ## The Computer Player Module
-The computer player is in its own module of functions, which are controlled by the function computerPlayer(). Each function that computerPlayer() calls will set the move, which the computerPlayer returns.The move is the response from the player's gameboard, and the new board state. This can be used by the front end to update the display.
+The computer player is in its own module of functions, which are controlled by the function computerPlayer(), the default exported function.  computerPlayer() takes as its arguments a game function that is created from the code in the gameboard.js module, with which it interacts, and a mode to set the difficulty level.  Each function that computerPlayer() controller function calls will trigger a move, and the computerPlayer function itself returns the updated game state and the current board.  This can be used by the front end to update the display. The move is set by the functions that computerPlayer() calls, like so: 
 ```js
 move = { res: res, board: game.getBoard() } 
 ```
-In the code below, there is an extra difficulty setting, where in easy mode the algorithm does not implement the checkerboard strategy. Which strategy is implemented is controlled by the findTarget() method: 
+ In easy mode the algorithm does not implement the checkerboard strategy, and the strategy that is implemented is controlled by the hunt() method: 
+
 
 ```js
 const computerPlayer = (game, mode) => {
@@ -165,7 +166,7 @@ const computerPlayer = (game, mode) => {
     // not currently attacking any ship
     if (targetStack.length === 0) {
       //no previous hit targets to add to attack
-      findTarget(game)
+      hunt(game)
       return move;
     } else if (targetStack.length !== 0) {
       manageTargetStack(game); //takes a target from the stack and sends it to hit array if appropriate.
