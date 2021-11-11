@@ -158,7 +158,12 @@ move = { res: res, board: game.getBoard() }
 ```
  In easy mode the algorithm does not implement the checkerboard strategy, and the strategy that is implemented is controlled by the hunt() method: 
 
-
+```js
+const hunt = (game) =>{
+  if(difficulty==="easy") randomFire(game)
+  if(difficulty ==="hard") randomFireCheckerboard(game)
+}
+```
 ```js
 const computerPlayer = (game, mode) => {
   difficulty = mode

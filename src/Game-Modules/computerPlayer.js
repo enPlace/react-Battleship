@@ -107,7 +107,7 @@ const randomFireCheckerboard = (game) => {
   }
 };
 
-const findTarget = (game) =>{
+const hunt = (game) =>{
   if(difficulty==="easy") randomFire(game)
   if(difficulty ==="hard") randomFireCheckerboard(game)
 }
@@ -124,7 +124,7 @@ const honeIn = (game) => {
     surroundingSquares = [];
     if (targetStack[0]) {
       manageTargetStack(game);
-    } else findTarget(game);
+    } else hunt(game);
   } else {
     //can fire at atleast one of the surrounding squares
     const target = surroundingSquares[Math.floor(Math.random() * surroundingSquares.length)];
@@ -282,7 +282,7 @@ const manageTargetStack = (game) => {
       //check the next item in the stack
       manageTargetStack(game);
     } else {
-      findTarget(game);
+      hunt(game);
     }
   }
 };
@@ -296,7 +296,7 @@ const computerPlayer = (game, mode) => {
     // not currently attacking any ship
     if (targetStack.length === 0) {
       //no previous hit targets to add to attack
-      findTarget(game)
+      hunt(game)
       return move;
     } else if (targetStack.length !== 0) {
       manageTargetStack(game);
