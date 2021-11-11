@@ -111,8 +111,9 @@ So what happens in phases 2 and 3? Remember that "honing in" means that we've hi
  
 
 However, ships can be placed next to each other in various ways, which means that: 
-  - getting a sunk ship does not always mean that this phase is finished. 
   - we may not even get a sunk ship if two ships are placed parallel to each other. 
+  - getting a sunk ship does not always mean that this phase is finished. 
+  
   
 Consider the following examples: 
 
