@@ -112,7 +112,7 @@ const findTarget = (game) =>{
   if(difficulty ==="hard") randomFireCheckerboard(game)
 }
 
-const honeIn = (game) => {
+const hunt = (game) => {
   //attacks surrounding squares of the initial hit to find the orientation
 
   const canFire =
@@ -140,7 +140,7 @@ const honeIn = (game) => {
           sunkShip();
         } else {
           return;
-          //hitArray length is still 1, we return the move and next time computerPlayer is called, it will still call honeIn()
+          //hitArray length is still 1, we return the move and next time computerPlayer is called, it will still call hunt()
         }
       }
       if (Array.isArray(res)) {
@@ -165,7 +165,7 @@ const honeIn = (game) => {
       }
     } catch {
       //encountered error with firing at a surrounding square. Try again.
-      honeIn(game);
+      hunt(game);
     }
   }
 };
@@ -276,7 +276,7 @@ const manageTargetStack = (game) => {
     //doesn't belong to a sunk ship, we can target with hitArray and hone in on target
     hitArray.push(shiftTarget);
     generateSurroundingSquares(shiftTarget[0], shiftTarget[1]);
-    honeIn(game);
+    hunt(game);
   } else {
     if (targetStack.length !== 0) {
       //check the next item in the stack
@@ -305,7 +305,7 @@ const computerPlayer = (game, mode) => {
   }
   if (hitArray.length === 1) {
     // we have a target and are trying to find the rest of the ship
-    honeIn(game);
+    hunt(game);
     return move;
   }
   if (hitArray.length > 1) {
