@@ -157,7 +157,7 @@ At the beginning of every call to the computer player, it will check first-- is 
 
 
 ## The Computer Player Module
-The computer player is in its own module of functions, which are controlled by the function computerPlayer(), the default exported function.  computerPlayer() takes as its arguments a game function that is created from the code in the gameboard.js module, with which it interacts, and a mode to set the difficulty level.  Each function that computerPlayer() controller function calls will trigger a move, and the computerPlayer function itself returns the updated game state and the current board.  This can be used by the front end to update the display. The move is set by the functions that computerPlayer() calls, like so: 
+The computer player is in its own module of functions, which are controlled by the function computerPlayer(), the default exported function.  computerPlayer() takes as its arguments a game function that is created from the code in the gameboard.js module, with which it interacts, and a mode to set the difficulty level.  Each function that computerPlayer() controller function calls will trigger a move, and the computerPlayer function itself returns the updated game state and the current board.  This can be used by the front end to update the display. The move is the response from firing at the gameboard which lets us know if it was a hit or a miss, as well as the new board state. The move is a variable available to the functions in the module, and is set by the functions that computerPlayer() calls, like so: 
 ```js
 move = { res: res, board: game.getBoard() } 
 ```
