@@ -1,6 +1,4 @@
 # The computerPlayer.js module: The algorithm that plays as your opponent
-## How to read this document: 
-<p>This is not meant to be an explanation of every function that the module contains, but rather an explanation of how the algorithm works and of its decision making process, so that reading the code in the module becomes much more straightforward.</p>
 
 ## Background: 
 <p>I started off building this thinking about how I typically play the game of battleship, which generally has three phases: </p>
